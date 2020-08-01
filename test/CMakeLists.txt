@@ -98,6 +98,161 @@ add_library(pch_light ${CURRENT_TEST_SOURCES_DIR}/pch_light.hpp)
 target_link_libraries(pch_light INTERFACE Boost::unit_test_framework)
 set_property(TARGET pch_light PROPERTY LINKER_LANGUAGE CXX)
 
-cm_test(NAME compile_test_main SOURCES compile_test/main.cpp COMPILE_ONLY WILL_FAIL)
+add_library(compile_test_main ${CURRENT_TEST_SOURCES_DIR}/compile_test/main.cpp)
+
+cm_test(NAME ${CURRENT_PROJECT_NAME}_test_dist_bernoulli_incl_test SOURCES
+        ${CURRENT_TEST_SOURCES_DIR}/compile_test/dist_bernoulli_incl_test.cpp
+        ${CURRENT_TEST_SOURCES_DIR}/compile_test/main.cpp
+        COMPILE_ONLY)
+
+cm_test(NAME ${CURRENT_PROJECT_NAME}_test_dist_beta_incl_test SOURCES
+        ${CURRENT_TEST_SOURCES_DIR}/compile_test/dist_beta_incl_test.cpp
+        ${CURRENT_TEST_SOURCES_DIR}/compile_test/main.cpp
+        COMPILE_ONLY)
+
+cm_test(NAME ${CURRENT_PROJECT_NAME}_test_dist_binomial_incl_test SOURCES
+        ${CURRENT_TEST_SOURCES_DIR}/compile_test/dist_binomial_incl_test.cpp
+        ${CURRENT_TEST_SOURCES_DIR}/compile_test/main.cpp
+        COMPILE_ONLY)
+
+cm_test(NAME ${CURRENT_PROJECT_NAME}_test_dist_cauchy_incl_test SOURCES
+        ${CURRENT_TEST_SOURCES_DIR}/compile_test/dist_cauchy_incl_test.cpp
+        ${CURRENT_TEST_SOURCES_DIR}/compile_test/main.cpp
+        COMPILE_ONLY)
+
+cm_test(NAME ${CURRENT_PROJECT_NAME}_test_dist_chi_squared_incl_test SOURCES
+        ${CURRENT_TEST_SOURCES_DIR}/compile_test/dist_cauchy_incl_test.cpp
+        ${CURRENT_TEST_SOURCES_DIR}/compile_test/main.cpp
+        COMPILE_ONLY)
+
+cm_test(NAME ${CURRENT_PROJECT_NAME}_test_dist_complement_incl_test SOURCES
+        ${CURRENT_TEST_SOURCES_DIR}/compile_test/dist_complement_incl_test.cpp
+        ${CURRENT_TEST_SOURCES_DIR}/compile_test/main.cpp
+        COMPILE_ONLY)
+
+cm_test(NAME ${CURRENT_PROJECT_NAME}_test_dist_exponential_incl_test SOURCES
+        ${CURRENT_TEST_SOURCES_DIR}/compile_test/dist_exponential_incl_test.cpp
+        ${CURRENT_TEST_SOURCES_DIR}/compile_test/main.cpp
+        COMPILE_ONLY)
+
+cm_test(NAME ${CURRENT_PROJECT_NAME}_test_dist_extreme_val_incl_test SOURCES
+        ${CURRENT_TEST_SOURCES_DIR}/compile_test/dist_extreme_val_incl_test.cpp
+        ${CURRENT_TEST_SOURCES_DIR}/compile_test/main.cpp
+        COMPILE_ONLY)
+
+cm_test(NAME ${CURRENT_PROJECT_NAME}_test_dist_find_location_incl_test SOURCES
+        ${CURRENT_TEST_SOURCES_DIR}/compile_test/dist_find_location_incl_test.cpp
+        ${CURRENT_TEST_SOURCES_DIR}/compile_test/main.cpp
+        COMPILE_ONLY)
+
+cm_test(NAME ${CURRENT_PROJECT_NAME}_test_dist_find_scale_incl_test SOURCES
+        ${CURRENT_TEST_SOURCES_DIR}/compile_test/dist_find_scale_incl_test.cpp
+        ${CURRENT_TEST_SOURCES_DIR}/compile_test/main.cpp
+        COMPILE_ONLY)
+
+cm_test(NAME ${CURRENT_PROJECT_NAME}_test_dist_fisher_f_incl_test SOURCES
+        ${CURRENT_TEST_SOURCES_DIR}/compile_test/dist_fisher_f_incl_test.cpp
+        ${CURRENT_TEST_SOURCES_DIR}/compile_test/main.cpp
+        COMPILE_ONLY)
+
+cm_test(NAME ${CURRENT_PROJECT_NAME}_test_dist_gamma_incl_test SOURCES
+        ${CURRENT_TEST_SOURCES_DIR}/compile_test/dist_gamma_incl_test.cpp
+        ${CURRENT_TEST_SOURCES_DIR}/compile_test/main.cpp
+        COMPILE_ONLY)
+
+cm_test(NAME ${CURRENT_PROJECT_NAME}_test_dist_inv_gamma_incl_test SOURCES
+        ${CURRENT_TEST_SOURCES_DIR}/compile_test/dist_inv_gamma_incl_test.cpp
+        ${CURRENT_TEST_SOURCES_DIR}/compile_test/main.cpp
+        COMPILE_ONLY)
+
+cm_test(NAME ${CURRENT_PROJECT_NAME}_test_dist_inv_chi_sq_incl_test SOURCES
+        ${CURRENT_TEST_SOURCES_DIR}/compile_test/dist_inv_chi_sq_incl_test.cpp
+        ${CURRENT_TEST_SOURCES_DIR}/compile_test/main.cpp
+        COMPILE_ONLY)
+
+cm_test(NAME ${CURRENT_PROJECT_NAME}_test_dist_hyperexponential_incl_test SOURCES
+        ${CURRENT_TEST_SOURCES_DIR}/compile_test/dist_hyperexponential_incl_test.cpp
+        ${CURRENT_TEST_SOURCES_DIR}/compile_test/main.cpp
+        COMPILE_ONLY)
+
+cm_test(NAME ${CURRENT_PROJECT_NAME}_test_dist_hypergeo_incl_test SOURCES
+        ${CURRENT_TEST_SOURCES_DIR}/compile_test/dist_hypergeo_incl_test.cpp
+        ${CURRENT_TEST_SOURCES_DIR}/compile_test/main.cpp
+        COMPILE_ONLY)
+
+cm_test(NAME ${CURRENT_PROJECT_NAME}_test_dist_laplace_incl_test SOURCES
+        ${CURRENT_TEST_SOURCES_DIR}/compile_test/dist_laplace_incl_test.cpp
+        ${CURRENT_TEST_SOURCES_DIR}/compile_test/main.cpp
+        COMPILE_ONLY)
+
+cm_test(NAME ${CURRENT_PROJECT_NAME}_test_dist_logistic_incl_test SOURCES
+        ${CURRENT_TEST_SOURCES_DIR}/compile_test/dist_logistic_incl_test.cpp
+        ${CURRENT_TEST_SOURCES_DIR}/compile_test/main.cpp
+        COMPILE_ONLY)
+
+cm_test(NAME ${CURRENT_PROJECT_NAME}_test_dist_lognormal_incl_test SOURCES
+        ${CURRENT_TEST_SOURCES_DIR}/compile_test/dist_lognormal_incl_test.cpp
+        ${CURRENT_TEST_SOURCES_DIR}/compile_test/main.cpp
+        COMPILE_ONLY)
+
+cm_test(NAME ${CURRENT_PROJECT_NAME}_test_dist_neg_binom_incl_test SOURCES
+        ${CURRENT_TEST_SOURCES_DIR}/compile_test/dist_neg_binom_incl_test.cpp
+        ${CURRENT_TEST_SOURCES_DIR}/compile_test/main.cpp
+        COMPILE_ONLY)
+
+cm_test(NAME ${CURRENT_PROJECT_NAME}_test_dist_nc_chi_squ_incl_test SOURCES
+        ${CURRENT_TEST_SOURCES_DIR}/compile_test/dist_nc_chi_squ_incl_test.cpp
+        ${CURRENT_TEST_SOURCES_DIR}/compile_test/main.cpp
+        COMPILE_ONLY)
+
+cm_test(NAME ${CURRENT_PROJECT_NAME}_test_dist_nc_beta_incl_test SOURCES
+        ${CURRENT_TEST_SOURCES_DIR}/compile_test/dist_nc_beta_incl_test.cpp
+        ${CURRENT_TEST_SOURCES_DIR}/compile_test/main.cpp
+        COMPILE_ONLY)
+
+cm_test(NAME ${CURRENT_PROJECT_NAME}_test_dist_nc_f_incl_test SOURCES
+        ${CURRENT_TEST_SOURCES_DIR}/compile_test/dist_nc_f_incl_test.cpp
+        ${CURRENT_TEST_SOURCES_DIR}/compile_test/main.cpp
+        COMPILE_ONLY)
+
+cm_test(NAME ${CURRENT_PROJECT_NAME}_test_dist_nc_t_incl_test SOURCES
+        ${CURRENT_TEST_SOURCES_DIR}/compile_test/dist_nc_t_incl_test.cpp
+        ${CURRENT_TEST_SOURCES_DIR}/compile_test/main.cpp
+        COMPILE_ONLY)
+
+cm_test(NAME ${CURRENT_PROJECT_NAME}_test_dist_normal_incl_test SOURCES
+        ${CURRENT_TEST_SOURCES_DIR}/compile_test/dist_normal_incl_test.cpp
+        ${CURRENT_TEST_SOURCES_DIR}/compile_test/main.cpp
+        COMPILE_ONLY)
+
+cm_test(NAME ${CURRENT_PROJECT_NAME}_test_dist_poisson_incl_test SOURCES
+        ${CURRENT_TEST_SOURCES_DIR}/compile_test/dist_poisson_incl_test.cpp
+        ${CURRENT_TEST_SOURCES_DIR}/compile_test/main.cpp
+        COMPILE_ONLY)
+
+cm_test(NAME ${CURRENT_PROJECT_NAME}_test_dist_students_t_incl_test SOURCES
+        ${CURRENT_TEST_SOURCES_DIR}/compile_test/dist_students_t_incl_test.cpp
+        ${CURRENT_TEST_SOURCES_DIR}/compile_test/main.cpp
+        COMPILE_ONLY)
+
+cm_test(NAME ${CURRENT_PROJECT_NAME}_test_dist_triangular_incl_test SOURCES
+        ${CURRENT_TEST_SOURCES_DIR}/compile_test/dist_triangular_incl_test.cpp
+        ${CURRENT_TEST_SOURCES_DIR}/compile_test/main.cpp
+        COMPILE_ONLY)
+
+cm_test(NAME ${CURRENT_PROJECT_NAME}_test_dist_uniform_incl_test SOURCES
+        ${CURRENT_TEST_SOURCES_DIR}/compile_test/dist_uniform_incl_test.cpp
+        ${CURRENT_TEST_SOURCES_DIR}/compile_test/main.cpp
+        COMPILE_ONLY)
+
+cm_test(NAME ${CURRENT_PROJECT_NAME}_test_dist_weibull_incl_test SOURCES
+        ${CURRENT_TEST_SOURCES_DIR}/compile_test/dist_weibull_incl_test.cpp
+        ${CURRENT_TEST_SOURCES_DIR}/compile_test/main.cpp
+        COMPILE_ONLY)
+
+cm_test(NAME ${CURRENT_PROJECT_NAME}_test_distribution_concept_check SOURCES
+        ${CURRENT_TEST_SOURCES_DIR}/compile_test/distribution_concept_check.cpp
+        ${CURRENT_TEST_SOURCES_DIR}/compile_test/main.cpp
+        COMPILE_ONLY)
 
 include_directories(${CMAKE_WORKSPACE_SOURCES_DIR})
