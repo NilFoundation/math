@@ -252,6 +252,7 @@ set(TR1F_SOURCES
 add_library(main_pch SHARED ${CMAKE_CURRENT_LIST_DIR}/src/tr1/pch.hpp)
 target_include_directories(main_pch PRIVATE ${CMAKE_CURRENT_LIST_DIR}/src/tr1)
 target_compile_definitions(main_pch PRIVATE BOOST_MATH_TR1_DYN_LINK)
+set_property(TARGET main_pch PROPERTY LINKER_LANGUAGE CXX)
 target_link_libraries(main_pch PRIVATE Boost::unit_test_framework)
 
 set(${CMAKE_WORKSPACE_NAME}_${CURRENT_PROJECT_NAME}_TARGET_NAMES c99 c99f c99l tr1 tr1f tr1l)
@@ -340,12 +341,11 @@ else()
         elseif(target_type STREQUAL "STATIC_LIB")
 
         endif()
+        cm_deploy(TARGETS ${CMAKE_WORKSPACE_NAME}_${CURRENT_PROJECT_NAME}_${TARGET_POSTFIX}
+                  INCLUDE ${CURRENT_SOURCES_DIR}/include
+                  NAMESPACE ${CMAKE_WORKSPACE_NAME}::)
     endforeach()
 endif()
-
-cm_deploy(TARGETS ${CMAKE_WORKSPACE_NAME}_${CURRENT_PROJECT_NAME}
-          INCLUDE ${CURRENT_SOURCES_DIR}/include
-          NAMESPACE ${CMAKE_WORKSPACE_NAME}::)
 
 if(BUILD_TESTS)
     add_subdirectory(test)

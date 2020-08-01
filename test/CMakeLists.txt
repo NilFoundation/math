@@ -90,11 +90,13 @@ cm_test_link_libraries(${CURRENT_PROJECT_NAME}_test_settings)
 #target_link_libraries(GMP_MY ${Quadmath_LIBRARY})
 #target_include_directories(GMP_MY PRIVATE ${Quadmath_INCLUDE_DIR})
 
-add_library(pch INTERFACE ${CURRENT_TEST_SOURCES_DIR}/pch.hpp)
+add_library(pch ${CURRENT_TEST_SOURCES_DIR}/pch.hpp)
 target_link_libraries(pch INTERFACE Boost::unit_test_framework)
+set_property(TARGET pch PROPERTY LINKER_LANGUAGE CXX)
 
-add_library(pch_light INTERFACE ${CURRENT_TEST_SOURCES_DIR}/pch_light.hpp)
+add_library(pch_light ${CURRENT_TEST_SOURCES_DIR}/pch_light.hpp)
 target_link_libraries(pch_light INTERFACE Boost::unit_test_framework)
+set_property(TARGET pch_light PROPERTY LINKER_LANGUAGE CXX)
 
 cm_test(NAME compile_test_main SOURCES compile_test/main.cpp COMPILE_ONLY WILL_FAIL)
 
