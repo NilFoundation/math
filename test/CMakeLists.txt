@@ -255,4 +255,22 @@ cm_test(NAME ${CURRENT_PROJECT_NAME}_test_distribution_concept_check SOURCES
         ${CURRENT_TEST_SOURCES_DIR}/compile_test/main.cpp
         COMPILE_ONLY)
 
+file(GLOB FLOAT128_TEST_FILES ${CURRENT_TEST_SOURCES_DIR}/float128/*.cpp)
+foreach(FLOAT128_TEST_FILE ${FLOAT128_TEST_FILES})
+    if(FLOAT128_FLOATMAX_COMPILED)
+        get_filename_component(TEST_NAME ${FLOAT128_TEST_FILE} NAME_WLE)
+        cm_test(NAME ${CURRENT_PROJECT_NAME}_${TEST_NAME}
+                SOURCES ${FLOAT128_TEST_FILE})
+        if(INTEL_QUAD_COMPILED)
+            target_compile_definitions(${CURRENT_PROJECT_NAME}_${TEST_NAME} PUBLIC -DBOOST_MATH_USE_FLOAT128)
+            target_compile_options(${CURRENT_PROJECT_NAME}_${TEST_NAME} "-Qoption,cpp,--extended_float_type")
+        endif()
+        if(FLOAT128_COMPILED)
+            target_link_options(${CURRENT_PROJECT_NAME}_${TEST_NAME} "-lquadmath")
+        endif()
+        target_compile_definitions(${CURRENT_PROJECT_NAME}_${TEST_NAME} PUBLIC -DBOOST_ALL_NO_LIB)
+        add_dependencies(${CURRENT_PROJECT_NAME}_test_suite_float128_tests ${CURRENT_PROJECT_NAME}_${TEST_NAME})
+    endif()
+endforeach()
+
 include_directories(${CMAKE_WORKSPACE_SOURCES_DIR})
