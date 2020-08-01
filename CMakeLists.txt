@@ -293,6 +293,10 @@ if("${CMAKE_WORKSPACE_NAME}" STREQUAL "boost")
         endif()
         set_property(TARGET ${CMAKE_WORKSPACE_NAME}_${CURRENT_PROJECT_NAME}_${TARGET_POSTFIX} PROPERTY EXPORT_NAME
                      ${CURRENT_PROJECT_NAME}_${TARGET_POSTFIX})
+        target_include_directories(${CMAKE_WORKSPACE_NAME}_${CURRENT_PROJECT_NAME}_${TARGET_POSTFIX} PRIVATE
+                                   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+                                   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/tr1>
+                                   $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/include>)
         target_link_libraries(${CMAKE_WORKSPACE_NAME}_${CURRENT_PROJECT_NAME}_${TARGET_POSTFIX} INTERFACE main_pch)
         target_link_libraries(${CMAKE_WORKSPACE_NAME}_${CURRENT_PROJECT_NAME}_${TARGET_POSTFIX} INTERFACE ${CMAKE_WORKSPACE_NAME}::core)
         target_link_libraries(${CMAKE_WORKSPACE_NAME}_${CURRENT_PROJECT_NAME}_${TARGET_POSTFIX} INTERFACE ${CMAKE_WORKSPACE_NAME}::static_assert)
@@ -336,7 +340,14 @@ else()
         endif()
         set_property(TARGET ${CMAKE_WORKSPACE_NAME}_${CURRENT_PROJECT_NAME}_${TARGET_POSTFIX} PROPERTY EXPORT_NAME
                      ${CURRENT_PROJECT_NAME}_${TARGET_POSTFIX})
-        target_link_libraries(${CMAKE_WORKSPACE_NAME}_${CURRENT_PROJECT_NAME}_${TARGET_POSTFIX} INTERFACE main_pch ${Boost_LIBRARIES})
+        target_link_libraries(${CMAKE_WORKSPACE_NAME}_${CURRENT_PROJECT_NAME}_${TARGET_POSTFIX} INTERFACE
+                              main_pch ${Boost_LIBRARIES})
+        target_include_directories(${CMAKE_WORKSPACE_NAME}_${CURRENT_PROJECT_NAME}_${TARGET_POSTFIX} PRIVATE
+                                   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+                                   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/tr1>
+                                   $<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/include>
+
+                                   ${Boost_INCLUDE_DIRS})
         get_target_property(target_type ${CMAKE_WORKSPACE_NAME}_${CURRENT_PROJECT_NAME}_${TARGET_POSTFIX} TYPE)
         if(target_type STREQUAL "SHARED_LIB")
             target_compile_definitions(${CMAKE_WORKSPACE_NAME}_${CURRENT_PROJECT_NAME}_${TARGET_POSTFIX} PRIVATE BOOST_MATH_TR1_DYN_LINK)
@@ -344,7 +355,7 @@ else()
 
         endif()
         cm_deploy(TARGETS ${CMAKE_WORKSPACE_NAME}_${CURRENT_PROJECT_NAME}_${TARGET_POSTFIX}
-                  INCLUDE ${CURRENT_SOURCES_DIR}/include
+                  INCLUDE ${CURRENT_SOURCES_DIR}/include ${CURRENT_SOURCES_DIR}/src/tr1
                   NAMESPACE ${CMAKE_WORKSPACE_NAME}::)
     endforeach()
 endif()
