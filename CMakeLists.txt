@@ -258,6 +258,7 @@ cm_deploy(TARGETS main_pch
           INCLUDE ${CURRENT_SOURCES_DIR}/src/tr1)
 
 list(APPEND TARGET_POSTFIXES "c99" "c99f" "c99l" "tr1" "tr1f" "tr1l")
+list(APPEND TARGET_NAMES)
 
 if("${CMAKE_WORKSPACE_NAME}" STREQUAL "boost")
     set(BOOST_CMAKE TRUE)
@@ -285,11 +286,13 @@ if("${CMAKE_WORKSPACE_NAME}" STREQUAL "boost")
         if((${TARGET_POSTFIX} STREQUAL "tr1l") OR (${TARGET_POSTFIX} STREQUAL "c99l"))
             if(LONG_DOUBLE_SUPPORT_COMPILED)
                 add_library(${CMAKE_WORKSPACE_NAME}_${CURRENT_PROJECT_NAME}_${TARGET_POSTFIX} ${${UPPER_TARGET_POSTFIX}_SOURCES})
+                list(APPEND TARGET_NAMES ${CMAKE_WORKSPACE_NAME}_${CURRENT_PROJECT_NAME}_${TARGET_POSTFIX})
             else()
                 continue()
             endif()
         else()
             add_library(${CMAKE_WORKSPACE_NAME}_${CURRENT_PROJECT_NAME}_${TARGET_POSTFIX} ${${UPPER_TARGET_POSTFIX}_SOURCES})
+            list(APPEND TARGET_NAMES ${CMAKE_WORKSPACE_NAME}_${CURRENT_PROJECT_NAME}_${TARGET_POSTFIX})
         endif()
         set_property(TARGET ${CMAKE_WORKSPACE_NAME}_${CURRENT_PROJECT_NAME}_${TARGET_POSTFIX} PROPERTY EXPORT_NAME
                      ${CURRENT_PROJECT_NAME}_${TARGET_POSTFIX})
@@ -319,10 +322,6 @@ if("${CMAKE_WORKSPACE_NAME}" STREQUAL "boost")
         elseif(target_type STREQUAL "STATIC_LIB")
 
         endif()
-        cm_deploy(TARGETS ${CMAKE_WORKSPACE_NAME}_${CURRENT_PROJECT_NAME}_${TARGET_POSTFIX}
-                  PACKAGE_NAME ${CURRENT_PROJECT_NAME}_${TARGET_POSTFIX}
-                  INCLUDE ${CURRENT_SOURCES_DIR}/include ${CURRENT_SOURCES_DIR}/src/tr1
-                  NAMESPACE ${CMAKE_WORKSPACE_NAME}::)
     endforeach()
 else()
     cm_workspace(boost SOURCES_DIR ${CMAKE_CURRENT_LIST_DIR})
@@ -336,11 +335,13 @@ else()
         if((${TARGET_POSTFIX} STREQUAL "tr1l") OR (${TARGET_POSTFIX} STREQUAL "c99l"))
             if(LONG_DOUBLE_SUPPORT_COMPILED)
                 add_library(${CMAKE_WORKSPACE_NAME}_${CURRENT_PROJECT_NAME}_${TARGET_POSTFIX} ${${UPPER_TARGET_POSTFIX}_SOURCES})
+                list(APPEND TARGET_NAMES ${CMAKE_WORKSPACE_NAME}_${CURRENT_PROJECT_NAME}_${TARGET_POSTFIX})
             else()
                 continue()
             endif()
         else()
             add_library(${CMAKE_WORKSPACE_NAME}_${CURRENT_PROJECT_NAME}_${TARGET_POSTFIX} ${${UPPER_TARGET_POSTFIX}_SOURCES})
+            list(APPEND TARGET_NAMES ${CMAKE_WORKSPACE_NAME}_${CURRENT_PROJECT_NAME}_${TARGET_POSTFIX})
         endif()
         set_property(TARGET ${CMAKE_WORKSPACE_NAME}_${CURRENT_PROJECT_NAME}_${TARGET_POSTFIX} PROPERTY EXPORT_NAME
                      ${CURRENT_PROJECT_NAME}_${TARGET_POSTFIX})
@@ -358,12 +359,12 @@ else()
         elseif(target_type STREQUAL "STATIC_LIB")
 
         endif()
-        cm_deploy(TARGETS ${CMAKE_WORKSPACE_NAME}_${CURRENT_PROJECT_NAME}_${TARGET_POSTFIX}
-                  PACKAGE_NAME ${CURRENT_PROJECT_NAME}_${TARGET_POSTFIX}
-                  INCLUDE ${CURRENT_SOURCES_DIR}/include ${CURRENT_SOURCES_DIR}/src/tr1
-                  NAMESPACE ${CMAKE_WORKSPACE_NAME}::)
     endforeach()
 endif()
+
+cm_deploy(TARGETS ${TARGET_NAMES}
+          INCLUDE ${CURRENT_SOURCES_DIR}/include ${CURRENT_SOURCES_DIR}/src/tr1
+          NAMESPACE ${CMAKE_WORKSPACE_NAME}::)
 
 if(BUILD_TESTS)
     add_subdirectory(test)
