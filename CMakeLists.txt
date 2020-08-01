@@ -319,6 +319,10 @@ if("${CMAKE_WORKSPACE_NAME}" STREQUAL "boost")
         elseif(target_type STREQUAL "STATIC_LIB")
 
         endif()
+        cm_deploy(TARGETS ${CMAKE_WORKSPACE_NAME}_${CURRENT_PROJECT_NAME}_${TARGET_POSTFIX}
+                  PACKAGE_NAME ${CURRENT_PROJECT_NAME}_${TARGET_POSTFIX}
+                  INCLUDE ${CURRENT_SOURCES_DIR}/include ${CURRENT_SOURCES_DIR}/src/tr1
+                  NAMESPACE ${CMAKE_WORKSPACE_NAME}::)
     endforeach()
 else()
     cm_workspace(boost SOURCES_DIR ${CMAKE_CURRENT_LIST_DIR})
@@ -355,6 +359,7 @@ else()
 
         endif()
         cm_deploy(TARGETS ${CMAKE_WORKSPACE_NAME}_${CURRENT_PROJECT_NAME}_${TARGET_POSTFIX}
+                  PACKAGE_NAME ${CURRENT_PROJECT_NAME}_${TARGET_POSTFIX}
                   INCLUDE ${CURRENT_SOURCES_DIR}/include ${CURRENT_SOURCES_DIR}/src/tr1
                   NAMESPACE ${CMAKE_WORKSPACE_NAME}::)
     endforeach()
