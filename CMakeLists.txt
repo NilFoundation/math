@@ -112,150 +112,152 @@ if(EFloat_FOUND)
 endif()
 
 set(C99_SOURCES
-    ${CMAKE_CURRENT_LIST_DIR}/src/acosh.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/asinh.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/atanh.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/cbrt.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/copysign.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/erfc.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/erf.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/expm1.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/fmax.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/fmin.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/fpclassify.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/hypot.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/lgamma.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/llround.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/log1p.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/lround.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/nextafter.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/nexttoward.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/round.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/tgamma.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/trunc.cpp)
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/acosh.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/asinh.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/atanh.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/cbrt.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/copysign.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/erfc.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/erf.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/expm1.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/fmax.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/fmin.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/fpclassify.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/hypot.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/lgamma.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/llround.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/log1p.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/lround.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/nextafter.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/nexttoward.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/round.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/tgamma.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/trunc.cpp)
 
 set(C99F_SOURCES
-    ${CMAKE_CURRENT_LIST_DIR}/src/acoshf.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/asinhf.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/atanhf.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/cbrtf.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/copysignf.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/erfcf.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/erff.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/expm1f.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/fmaxf.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/fminf.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/fpclassifyf.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/hypotf.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/lgammaf.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/llroundf.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/log1pf.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/lroundf.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/nextafterf.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/nexttowardf.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/roundf.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/tgammaf.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/truncf.cpp)
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/acoshf.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/asinhf.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/atanhf.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/cbrtf.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/copysignf.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/erfcf.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/erff.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/expm1f.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/fmaxf.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/fminf.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/fpclassifyf.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/hypotf.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/lgammaf.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/llroundf.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/log1pf.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/lroundf.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/nextafterf.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/nexttowardf.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/roundf.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/tgammaf.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/truncf.cpp)
 
 set(C99L_SOURCES
-    ${CMAKE_CURRENT_LIST_DIR}/src/acoshl.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/asinhl.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/atanhl.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/cbrtl.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/copysignl.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/erfcl.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/erfl.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/expm1l.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/fmaxl.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/fminl.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/fpclassifyl.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/hypotl.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/lgammal.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/llroundl.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/log1pl.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/lroundl.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/nextafterl.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/nexttowardl.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/roundl.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/tgammal.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/truncl.cpp)
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/acoshl.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/asinhl.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/atanhl.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/cbrtl.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/copysignl.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/erfcl.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/erfl.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/expm1l.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/fmaxl.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/fminl.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/fpclassifyl.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/hypotl.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/lgammal.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/llroundl.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/log1pl.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/lroundl.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/nextafterl.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/nexttowardl.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/roundl.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/tgammal.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/truncl.cpp)
 
 set(TR1_SOURCES
-    ${CMAKE_CURRENT_LIST_DIR}/src/assoc_laguerre.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/assoc_legendre.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/beta.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/comp_ellint_1.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/comp_ellint_2.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/comp_ellint_3.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/cyl_bessel_i.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/cyl_bessel_j.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/cyl_bessel_k.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/cyl_neumann.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/ellint_1.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/ellint_2.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/ellint_3.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/expint.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/hermite.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/laguerre.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/legendre.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/riemann_zeta.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/sph_bessel.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/sph_legendre.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/sph_neumann.cpp)
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/assoc_laguerre.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/assoc_legendre.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/beta.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/comp_ellint_1.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/comp_ellint_2.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/comp_ellint_3.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/cyl_bessel_i.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/cyl_bessel_j.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/cyl_bessel_k.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/cyl_neumann.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/ellint_1.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/ellint_2.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/ellint_3.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/expint.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/hermite.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/laguerre.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/legendre.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/riemann_zeta.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/sph_bessel.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/sph_legendre.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/sph_neumann.cpp)
 
 set(TR1F_SOURCES
-    ${CMAKE_CURRENT_LIST_DIR}/src/assoc_laguerref.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/assoc_legendref.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/betaf.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/comp_ellint_1f.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/comp_ellint_2f.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/comp_ellint_3f.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/cyl_bessel_if.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/cyl_bessel_jf.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/cyl_bessel_kf.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/cyl_neumannf.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/ellint_1f.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/ellint_2f.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/ellint_3f.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/expintf.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/hermitef.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/laguerref.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/legendref.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/riemann_zetaf.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/sph_besself.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/sph_legendref.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/sph_neumannf.cpp)
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/assoc_laguerref.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/assoc_legendref.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/betaf.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/comp_ellint_1f.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/comp_ellint_2f.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/comp_ellint_3f.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/cyl_bessel_if.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/cyl_bessel_jf.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/cyl_bessel_kf.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/cyl_neumannf.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/ellint_1f.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/ellint_2f.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/ellint_3f.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/expintf.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/hermitef.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/laguerref.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/legendref.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/riemann_zetaf.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/sph_besself.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/sph_legendref.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/sph_neumannf.cpp)
 
-set(TR1F_SOURCES
-    ${CMAKE_CURRENT_LIST_DIR}/src/assoc_laguerrefl.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/assoc_legendrefl.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/betafl.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/comp_ellint_1fl.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/comp_ellint_2fl.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/comp_ellint_3fl.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/cyl_bessel_ifl.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/cyl_bessel_jfl.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/cyl_bessel_kfl.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/cyl_neumannfl.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/ellint_1fl.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/ellint_2fl.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/ellint_3fl.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/expintfl.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/hermitefl.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/laguerrefl.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/legendrefl.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/riemann_zetafl.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/sph_besselfl.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/sph_legendrefl.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/sph_neumannfl.cpp)
+set(TR1L_SOURCES
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/assoc_laguerrel.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/assoc_legendrel.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/betal.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/comp_ellint_1l.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/comp_ellint_2l.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/comp_ellint_3l.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/cyl_bessel_il.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/cyl_bessel_jl.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/cyl_bessel_kl.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/cyl_neumannl.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/ellint_1l.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/ellint_2l.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/ellint_3l.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/expintl.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/hermitel.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/laguerrel.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/legendrel.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/riemann_zetal.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/sph_bessell.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/sph_legendrel.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/tr1/sph_neumannl.cpp)
 
 add_library(main_pch SHARED ${CMAKE_CURRENT_LIST_DIR}/src/tr1/pch.hpp)
 target_include_directories(main_pch PRIVATE ${CMAKE_CURRENT_LIST_DIR}/src/tr1)
 target_compile_definitions(main_pch PRIVATE BOOST_MATH_TR1_DYN_LINK)
 set_property(TARGET main_pch PROPERTY LINKER_LANGUAGE CXX)
 target_link_libraries(main_pch PRIVATE Boost::unit_test_framework)
+cm_deploy(TARGETS main_pch
+          INCLUDE ${CURRENT_SOURCES_DIR}/src/tr1)
 
-set(${CMAKE_WORKSPACE_NAME}_${CURRENT_PROJECT_NAME}_TARGET_NAMES c99 c99f c99l tr1 tr1f tr1l)
+list(APPEND TARGET_POSTFIXES "c99" "c99f" "c99l" "tr1" "tr1f" "tr1l")
 
 if("${CMAKE_WORKSPACE_NAME}" STREQUAL "boost")
     set(BOOST_CMAKE TRUE)
@@ -278,7 +280,7 @@ if("${CMAKE_WORKSPACE_NAME}" STREQUAL "boost")
     find_package(${CMAKE_WORKSPACE_NAME}_config)
     find_package(${CMAKE_WORKSPACE_NAME}_throw_exception)
 
-    foreach(TARGET_POSTFIX ${${CMAKE_WORKSPACE_NAME}_${CURRENT_PROJECT_NAME}_TARGET_NAMES})
+    foreach(TARGET_POSTFIX ${TARGET_POSTFIXES})
         string(TOUPPER ${TARGET_POSTFIX} UPPER_TARGET_POSTFIX)
         if((${TARGET_POSTFIX} STREQUAL "tr1l") OR (${TARGET_POSTFIX} STREQUAL "c99l"))
             if(LONG_DOUBLE_SUPPORT_COMPILED)
@@ -309,7 +311,7 @@ if("${CMAKE_WORKSPACE_NAME}" STREQUAL "boost")
         target_link_libraries(${CMAKE_WORKSPACE_NAME}_${CURRENT_PROJECT_NAME}_${TARGET_POSTFIX} INTERFACE ${CMAKE_WORKSPACE_NAME}::throw_exception)
         get_target_property(target_type ${CMAKE_WORKSPACE_NAME}_${CURRENT_PROJECT_NAME}_${TARGET_POSTFIX} TYPE)
         if(target_type STREQUAL "SHARED_LIB")
-            target_compile_definitions(block_${name}_test PRIVATE BOOST_MATH_TR1_DYN_LINK)
+            target_compile_definitions(${CMAKE_WORKSPACE_NAME}_${CURRENT_PROJECT_NAME}_${TARGET_POSTFIX} PRIVATE BOOST_MATH_TR1_DYN_LINK)
         elseif(target_type STREQUAL "STATIC_LIB")
 
         endif()
@@ -321,7 +323,7 @@ else()
 
     find_package(Boost COMPONENTS REQUIRED random)
 
-    foreach(TARGET_POSTFIX ${${CMAKE_WORKSPACE_NAME}_${CURRENT_PROJECT_NAME}_TARGET_NAMES})
+    foreach(TARGET_POSTFIX ${TARGET_POSTFIXES})
         string(TOUPPER ${TARGET_POSTFIX} UPPER_TARGET_POSTFIX)
         if((${TARGET_POSTFIX} STREQUAL "tr1l") OR (${TARGET_POSTFIX} STREQUAL "c99l"))
             if(LONG_DOUBLE_SUPPORT_COMPILED)
@@ -337,7 +339,7 @@ else()
         target_link_libraries(${CMAKE_WORKSPACE_NAME}_${CURRENT_PROJECT_NAME}_${TARGET_POSTFIX} INTERFACE main_pch ${Boost_LIBRARIES})
         get_target_property(target_type ${CMAKE_WORKSPACE_NAME}_${CURRENT_PROJECT_NAME}_${TARGET_POSTFIX} TYPE)
         if(target_type STREQUAL "SHARED_LIB")
-            target_compile_definitions(block_${name}_test PRIVATE BOOST_MATH_TR1_DYN_LINK)
+            target_compile_definitions(${CMAKE_WORKSPACE_NAME}_${CURRENT_PROJECT_NAME}_${TARGET_POSTFIX} PRIVATE BOOST_MATH_TR1_DYN_LINK)
         elseif(target_type STREQUAL "STATIC_LIB")
 
         endif()
