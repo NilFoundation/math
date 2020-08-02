@@ -33,9 +33,9 @@ namespace boost{ namespace math{
 namespace tools{
 
 template <class T>
-BOOST_MATH_CONSTEXPR int digits(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE(T)) BOOST_NOEXCEPT;
+BOOST_MATH_CONSTEXPR BOOST_GPU_ENABLED int digits(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE(T)) BOOST_NOEXCEPT;
 template <class T>
-BOOST_MATH_CONSTEXPR T epsilon(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE(T)) BOOST_MATH_NOEXCEPT(T);
+BOOST_MATH_CONSTEXPR BOOST_GPU_ENABLED T epsilon(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE(T)) BOOST_MATH_NOEXCEPT(T);
 
 }
 
@@ -46,7 +46,7 @@ namespace policies{
 //
 // Special cases for exceptions disabled first:
 //
-#ifdef BOOST_NO_EXCEPTIONS
+#if defined(BOOST_NO_EXCEPTIONS)
 #  ifndef BOOST_MATH_DOMAIN_ERROR_POLICY
 #    define BOOST_MATH_DOMAIN_ERROR_POLICY errno_on_error
 #  endif
@@ -63,6 +63,35 @@ namespace policies{
 #     define BOOST_MATH_ROUNDING_ERROR_POLICY errno_on_error
 #  endif
 #endif
+
+   //
+   // Special cases for CUDA devices:
+   //
+#ifdef __CUDA_ARCH__
+#  ifndef BOOST_MATH_DOMAIN_ERROR_POLICY
+#    define BOOST_MATH_DOMAIN_ERROR_POLICY ignore_error
+#  endif
+#  ifndef BOOST_MATH_POLE_ERROR_POLICY
+#     define BOOST_MATH_POLE_ERROR_POLICY ignore_error
+#  endif
+#  ifndef BOOST_MATH_OVERFLOW_ERROR_POLICY
+#     define BOOST_MATH_OVERFLOW_ERROR_POLICY ignore_error
+#  endif
+#  ifndef BOOST_MATH_EVALUATION_ERROR_POLICY
+#     define BOOST_MATH_EVALUATION_ERROR_POLICY ignore_error
+#  endif
+#  ifndef BOOST_MATH_ROUNDING_ERROR_POLICY
+#     define BOOST_MATH_ROUNDING_ERROR_POLICY ignore_error
+#  endif
+#  ifndef BOOST_MATH_PROMOTE_FLOAT_POLICY
+#     define BOOST_MATH_PROMOTE_FLOAT_POLICY false
+#  endif
+#  ifndef BOOST_MATH_PROMOTE_DOUBLE_POLICY
+#     define BOOST_MATH_PROMOTE_DOUBLE_POLICY false
+#  endif
+#endif
+
+
 //
 // Then the regular cases:
 //
@@ -376,8 +405,12 @@ struct default_args<false, true>
    typedef default_policy arg2;
 };
 
+template <bool b1, bool b2> struct fake_default_arg { typedef default_policy type; };
+template <> struct fake_default_arg<false, false> { typedef digits10<0> type; };
+
 typedef default_args<BOOST_MATH_PROMOTE_FLOAT_POLICY, BOOST_MATH_PROMOTE_DOUBLE_POLICY>::arg1 forwarding_arg1;
 typedef default_args<BOOST_MATH_PROMOTE_FLOAT_POLICY, BOOST_MATH_PROMOTE_DOUBLE_POLICY>::arg2 forwarding_arg2;
+typedef fake_default_arg<BOOST_MATH_PROMOTE_FLOAT_POLICY, BOOST_MATH_PROMOTE_DOUBLE_POLICY>::type fake_default_arg_placeholder;
 
 } // detail
 //
@@ -488,7 +521,7 @@ public:
 };
 
 template <>
-struct policy<detail::forwarding_arg1, detail::forwarding_arg2, default_policy, default_policy, default_policy, default_policy, default_policy, default_policy, default_policy, default_policy, default_policy>
+struct policy<detail::forwarding_arg1, detail::forwarding_arg2, default_policy, default_policy, default_policy, default_policy, default_policy, default_policy, default_policy, default_policy, detail::fake_default_arg_placeholder>
 {
 public:
    typedef domain_error<> domain_error_type;
@@ -637,7 +670,7 @@ struct normalise<policy<detail::forwarding_arg1, detail::forwarding_arg2>,
           default_policy,
           default_policy,
           default_policy,
-          default_policy>
+          detail::fake_default_arg_placeholder>
 {
    typedef policy<detail::forwarding_arg1, detail::forwarding_arg2> type;
 };
@@ -845,19 +878,19 @@ struct precision<BOOST_MATH_FLOAT128_TYPE, Policy>
 namespace detail{
 
 template <class T, class Policy>
-inline BOOST_MATH_CONSTEXPR int digits_imp(boost::true_type const&) BOOST_NOEXCEPT
+inline BOOST_MATH_CONSTEXPR BOOST_GPU_ENABLED int digits_imp(boost::true_type const&) BOOST_NOEXCEPT
 {
 #ifndef BOOST_NO_LIMITS_COMPILE_TIME_CONSTANTS
    BOOST_STATIC_ASSERT( ::std::numeric_limits<T>::is_specialized);
 #else
-   BOOST_ASSERT(::std::numeric_limits<T>::is_specialized);
+   BOOST_MATH_ASSERT(::std::numeric_limits<T>::is_specialized);
 #endif
    typedef typename boost::math::policies::precision<T, Policy>::type p_t;
    return p_t::value;
 }
 
 template <class T, class Policy>
-inline BOOST_MATH_CONSTEXPR int digits_imp(boost::false_type const&) BOOST_NOEXCEPT
+inline BOOST_MATH_CONSTEXPR BOOST_GPU_ENABLED int digits_imp(boost::false_type const&) BOOST_NOEXCEPT
 {
    return tools::digits<T>();
 }
@@ -865,26 +898,26 @@ inline BOOST_MATH_CONSTEXPR int digits_imp(boost::false_type const&) BOOST_NOEXC
 } // namespace detail
 
 template <class T, class Policy>
-inline BOOST_MATH_CONSTEXPR int digits(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE(T)) BOOST_NOEXCEPT
+inline BOOST_MATH_CONSTEXPR BOOST_GPU_ENABLED int digits(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE(T)) BOOST_NOEXCEPT
 {
    typedef boost::integral_constant<bool, std::numeric_limits<T>::is_specialized > tag_type;
    return detail::digits_imp<T, Policy>(tag_type());
 }
 template <class T, class Policy>
-inline BOOST_MATH_CONSTEXPR int digits_base10(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE(T)) BOOST_NOEXCEPT
+inline BOOST_MATH_CONSTEXPR BOOST_GPU_ENABLED int digits_base10(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE(T)) BOOST_NOEXCEPT
 {
    return boost::math::policies::digits<T, Policy>() * 301 / 1000L;
 }
 
 template <class Policy>
-inline BOOST_MATH_CONSTEXPR unsigned long get_max_series_iterations() BOOST_NOEXCEPT
+inline BOOST_MATH_CONSTEXPR BOOST_GPU_ENABLED unsigned long get_max_series_iterations() BOOST_NOEXCEPT
 {
    typedef typename Policy::max_series_iterations_type iter_type;
    return iter_type::value;
 }
 
 template <class Policy>
-inline BOOST_MATH_CONSTEXPR unsigned long get_max_root_iterations() BOOST_NOEXCEPT
+inline BOOST_MATH_CONSTEXPR BOOST_GPU_ENABLED unsigned long get_max_root_iterations() BOOST_NOEXCEPT
 {
    typedef typename Policy::max_root_iterations_type iter_type;
    return iter_type::value;
@@ -895,7 +928,7 @@ namespace detail{
 template <class T, class Digits, class Small, class Default>
 struct series_factor_calc
 {
-   static T get() BOOST_MATH_NOEXCEPT(T)
+   static BOOST_GPU_ENABLED T get() BOOST_MATH_NOEXCEPT(T)
    {
       return ldexp(T(1.0), 1 - Digits::value);
    }
@@ -904,7 +937,7 @@ struct series_factor_calc
 template <class T, class Digits>
 struct series_factor_calc<T, Digits, boost::true_type, boost::true_type>
 {
-   static BOOST_MATH_CONSTEXPR T get() BOOST_MATH_NOEXCEPT(T)
+   static BOOST_MATH_CONSTEXPR BOOST_GPU_ENABLED T get() BOOST_MATH_NOEXCEPT(T)
    {
       return boost::math::tools::epsilon<T>();
    }
@@ -912,7 +945,7 @@ struct series_factor_calc<T, Digits, boost::true_type, boost::true_type>
 template <class T, class Digits>
 struct series_factor_calc<T, Digits, boost::true_type, boost::false_type>
 {
-   static BOOST_MATH_CONSTEXPR T get() BOOST_MATH_NOEXCEPT(T)
+   static BOOST_MATH_CONSTEXPR BOOST_GPU_ENABLED T get() BOOST_MATH_NOEXCEPT(T)
    {
       return 1 / static_cast<T>(static_cast<boost::uintmax_t>(1u) << (Digits::value - 1));
    }
@@ -920,21 +953,21 @@ struct series_factor_calc<T, Digits, boost::true_type, boost::false_type>
 template <class T, class Digits>
 struct series_factor_calc<T, Digits, boost::false_type, boost::true_type>
 {
-   static BOOST_MATH_CONSTEXPR T get() BOOST_MATH_NOEXCEPT(T)
+   static BOOST_MATH_CONSTEXPR BOOST_GPU_ENABLED T get() BOOST_MATH_NOEXCEPT(T)
    {
       return boost::math::tools::epsilon<T>();
    }
 };
 
 template <class T, class Policy>
-inline BOOST_MATH_CONSTEXPR T get_epsilon_imp(boost::true_type const&) BOOST_MATH_NOEXCEPT(T)
+inline BOOST_MATH_CONSTEXPR BOOST_GPU_ENABLED T get_epsilon_imp(boost::true_type const&) BOOST_MATH_NOEXCEPT(T)
 {
 #ifndef BOOST_NO_LIMITS_COMPILE_TIME_CONSTANTS
    BOOST_STATIC_ASSERT( ::std::numeric_limits<T>::is_specialized);
    BOOST_STATIC_ASSERT( ::std::numeric_limits<T>::radix == 2);
 #else
-   BOOST_ASSERT(::std::numeric_limits<T>::is_specialized);
-   BOOST_ASSERT(::std::numeric_limits<T>::radix == 2);
+   BOOST_MATH_ASSERT(::std::numeric_limits<T>::is_specialized);
+   BOOST_MATH_ASSERT(::std::numeric_limits<T>::radix == 2);
 #endif
    typedef typename boost::math::policies::precision<T, Policy>::type p_t;
    typedef boost::integral_constant<bool, p_t::value <= std::numeric_limits<boost::uintmax_t>::digits> is_small_int;
@@ -943,7 +976,7 @@ inline BOOST_MATH_CONSTEXPR T get_epsilon_imp(boost::true_type const&) BOOST_MAT
 }
 
 template <class T, class Policy>
-inline BOOST_MATH_CONSTEXPR T get_epsilon_imp(boost::false_type const&) BOOST_MATH_NOEXCEPT(T)
+inline BOOST_MATH_CONSTEXPR BOOST_GPU_ENABLED T get_epsilon_imp(boost::false_type const&) BOOST_MATH_NOEXCEPT(T)
 {
    return tools::epsilon<T>();
 }
@@ -951,7 +984,7 @@ inline BOOST_MATH_CONSTEXPR T get_epsilon_imp(boost::false_type const&) BOOST_MA
 } // namespace detail
 
 template <class T, class Policy>
-inline BOOST_MATH_CONSTEXPR T get_epsilon(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE(T)) BOOST_MATH_NOEXCEPT(T)
+inline BOOST_MATH_CONSTEXPR BOOST_GPU_ENABLED T get_epsilon(BOOST_MATH_EXPLICIT_TEMPLATE_TYPE(T)) BOOST_MATH_NOEXCEPT(T)
 {
    typedef boost::integral_constant<bool, (std::numeric_limits<T>::is_specialized && (std::numeric_limits<T>::radix == 2)) > tag_type;
    return detail::get_epsilon_imp<T, Policy>(tag_type());

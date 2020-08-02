@@ -10,10 +10,10 @@
 #include <sstream>
 
 int max_order = 20;
-const char* path_prefix = "..\\..\\..\\boost\\math\\tools\\detail\\polynomial_";
-const char* path_prefix2 = "..\\..\\..\\boost\\math\\tools\\detail\\rational_";
+const char* path_prefix = "polynomial_";
+const char* path_prefix2 = "rational_";
 
-const char* copyright_string = 
+const char* copyright_string =
 "//  (C) Copyright John Maddock 2007.\n"
 "//  Use, modification and distribution are subject to the\n"
 "//  Boost Software License, Version 1.0. (See accompanying file\n"
@@ -40,25 +40,26 @@ void print_polynomials(int max_order)
          "#define BOOST_MATH_TOOLS_POLY_EVAL_" << i << "_HPP\n\n"
          "namespace boost{ namespace math{ namespace tools{ namespace detail{\n\n"
          "template <class T, class V>\n"
-         "inline V evaluate_polynomial_c_imp(const T*, const V&, const boost::integral_constant<int, 0>*)\n"
+         "inline BOOST_GPU_ENABLED V evaluate_polynomial_c_imp(const T*, const V&, const boost::integral_constant<int, 0>*) BOOST_MATH_NOEXCEPT(V)\n"
          "{\n"
          "   return static_cast<V>(0);\n"
          "}\n"
          "\n"
          "template <class T, class V>\n"
-         "inline V evaluate_polynomial_c_imp(const T* a, const V&, const boost::integral_constant<int, 1>*)\n"
+         "inline BOOST_GPU_ENABLED V evaluate_polynomial_c_imp(const T* a, const V&, const boost::integral_constant<int, 1>*) BOOST_MATH_NOEXCEPT(V)\n"
          "{\n"
          "   return static_cast<V>(a[0]);\n"
          "}\n\n";
 
       for(int order = 2; order <= i; ++order)
       {
-         ofs << 
+         ofs <<
          "template <class T, class V>\n"
-         "inline V evaluate_polynomial_c_imp(const T* a, const V& x, const boost::integral_constant<int, " << order << ">*)\n"
+         "inline BOOST_GPU_ENABLED V evaluate_polynomial_c_imp(const T* a, const V& x, const "
+              "boost::integral_constant<int, " << order << ">*) BOOST_MATH_NOEXCEPT(V)\n"
          "{\n"
          "   return static_cast<V>(";
-         
+
          for(int bracket = 2; bracket < order; ++bracket)
             ofs << "(";
          ofs << "a[" << order - 1 << "] * x + a[" << order - 2 << "]" ;
@@ -66,7 +67,7 @@ void print_polynomials(int max_order)
          {
             ofs << ") * x + a[" << item << "]";
          }
-         
+
          ofs << ");\n"
          "}\n\n";
       }
@@ -90,37 +91,37 @@ void print_polynomials(int max_order)
          "#define BOOST_MATH_TOOLS_POLY_EVAL_" << i << "_HPP\n\n"
          "namespace boost{ namespace math{ namespace tools{ namespace detail{\n\n"
          "template <class T, class V>\n"
-         "inline V evaluate_polynomial_c_imp(const T*, const V&, const boost::integral_constant<int, 0>*)\n"
+         "inline BOOST_GPU_ENABLED V evaluate_polynomial_c_imp(const T*, const V&, const boost::integral_constant<int, 0>*) BOOST_MATH_NOEXCEPT(V)\n"
          "{\n"
          "   return static_cast<V>(0);\n"
          "}\n"
          "\n"
          "template <class T, class V>\n"
-         "inline V evaluate_polynomial_c_imp(const T* a, const V&, const boost::integral_constant<int, 1>*)\n"
+         "inline BOOST_GPU_ENABLED V evaluate_polynomial_c_imp(const T* a, const V&, const boost::integral_constant<int, 1>*) BOOST_MATH_NOEXCEPT(V)\n"
          "{\n"
          "   return static_cast<V>(a[0]);\n"
          "}\n\n"
          "template <class T, class V>\n"
-         "inline V evaluate_polynomial_c_imp(const T* a, const V& x, const boost::integral_constant<int, 2>*)\n"
+         "inline BOOST_GPU_ENABLED V evaluate_polynomial_c_imp(const T* a, const V& x, const boost::integral_constant<int, 2>*) BOOST_MATH_NOEXCEPT(V)\n"
          "{\n"
          "   return static_cast<V>(a[1] * x + a[0]);\n"
          "}\n\n"
          "template <class T, class V>\n"
-         "inline V evaluate_polynomial_c_imp(const T* a, const V& x, const boost::integral_constant<int, 3>*)\n"
+         "inline BOOST_GPU_ENABLED V evaluate_polynomial_c_imp(const T* a, const V& x, const boost::integral_constant<int, 3>*) BOOST_MATH_NOEXCEPT(V)\n"
          "{\n"
          "   return static_cast<V>((a[2] * x + a[1]) * x + a[0]);\n"
          "}\n\n"
          "template <class T, class V>\n"
-         "inline V evaluate_polynomial_c_imp(const T* a, const V& x, const boost::integral_constant<int, 4>*)\n"
+         "inline BOOST_GPU_ENABLED V evaluate_polynomial_c_imp(const T* a, const V& x, const boost::integral_constant<int, 4>*) BOOST_MATH_NOEXCEPT(V)\n"
          "{\n"
          "   return static_cast<V>(((a[3] * x + a[2]) * x + a[1]) * x + a[0]);\n"
          "}\n\n";
 
       for(int order = 5; order <= i; ++order)
       {
-         ofs << 
+         ofs <<
          "template <class T, class V>\n"
-         "inline V evaluate_polynomial_c_imp(const T* a, const V& x, const boost::integral_constant<int, " << order << ">*)\n"
+         "inline BOOST_GPU_ENABLED V evaluate_polynomial_c_imp(const T* a, const V& x, const boost::integral_constant<int, " << order << ">*) BOOST_MATH_NOEXCEPT(V)\n"
          "{\n"
          "   V x2 = x * x;\n"
          "   return static_cast<V>(";
@@ -186,37 +187,37 @@ void print_polynomials(int max_order)
          "#define BOOST_MATH_TOOLS_POLY_EVAL_" << i << "_HPP\n\n"
          "namespace boost{ namespace math{ namespace tools{ namespace detail{\n\n"
          "template <class T, class V>\n"
-         "inline V evaluate_polynomial_c_imp(const T*, const V&, const boost::integral_constant<int, 0>*)\n"
+         "inline BOOST_GPU_ENABLED V evaluate_polynomial_c_imp(const T*, const V&, const boost::integral_constant<int, 0>*) BOOST_MATH_NOEXCEPT(V)\n"
          "{\n"
          "   return static_cast<V>(0);\n"
          "}\n"
          "\n"
          "template <class T, class V>\n"
-         "inline V evaluate_polynomial_c_imp(const T* a, const V&, const boost::integral_constant<int, 1>*)\n"
+         "inline BOOST_GPU_ENABLED V evaluate_polynomial_c_imp(const T* a, const V&, const boost::integral_constant<int, 1>*) BOOST_MATH_NOEXCEPT(V)\n"
          "{\n"
          "   return static_cast<V>(a[0]);\n"
          "}\n\n"
          "template <class T, class V>\n"
-         "inline V evaluate_polynomial_c_imp(const T* a, const V& x, const boost::integral_constant<int, 2>*)\n"
+         "inline BOOST_GPU_ENABLED V evaluate_polynomial_c_imp(const T* a, const V& x, const boost::integral_constant<int, 2>*) BOOST_MATH_NOEXCEPT(V)\n"
          "{\n"
          "   return static_cast<V>(a[1] * x + a[0]);\n"
          "}\n\n"
          "template <class T, class V>\n"
-         "inline V evaluate_polynomial_c_imp(const T* a, const V& x, const boost::integral_constant<int, 3>*)\n"
+         "inline BOOST_GPU_ENABLED V evaluate_polynomial_c_imp(const T* a, const V& x, const boost::integral_constant<int, 3>*) BOOST_MATH_NOEXCEPT(V)\n"
          "{\n"
          "   return static_cast<V>((a[2] * x + a[1]) * x + a[0]);\n"
          "}\n\n"
          "template <class T, class V>\n"
-         "inline V evaluate_polynomial_c_imp(const T* a, const V& x, const boost::integral_constant<int, 4>*)\n"
+         "inline BOOST_GPU_ENABLED V evaluate_polynomial_c_imp(const T* a, const V& x, const boost::integral_constant<int, 4>*) BOOST_MATH_NOEXCEPT(V)\n"
          "{\n"
          "   return static_cast<V>(((a[3] * x + a[2]) * x + a[1]) * x + a[0]);\n"
          "}\n\n";
 
       for(int order = 5; order <= i; ++order)
       {
-         ofs << 
+         ofs <<
          "template <class T, class V>\n"
-         "inline V evaluate_polynomial_c_imp(const T* a, const V& x, const boost::integral_constant<int, " << order << ">*)\n"
+         "inline BOOST_GPU_ENABLED V evaluate_polynomial_c_imp(const T* a, const V& x, const boost::integral_constant<int, " << order << ">*) BOOST_MATH_NOEXCEPT(V)\n"
          "{\n"
          "   V x2 = x * x;\n"
          "   V t[2];\n";
@@ -234,7 +235,7 @@ void print_polynomials(int max_order)
                if(item - 1 >= 0)
                   ofs << "   t[1] += static_cast<V>(a[" << item - 1 << "]);\n";
             }
-            ofs << 
+            ofs <<
                "   t[1] *= x;\n"
                "   return t[0] + t[1];\n";
          }
@@ -281,26 +282,26 @@ void print_rationals(int max_order)
          "#define BOOST_MATH_TOOLS_POLY_RAT_" << i << "_HPP\n\n"
          "namespace boost{ namespace math{ namespace tools{ namespace detail{\n\n"
          "template <class T, class U, class V>\n"
-         "inline V evaluate_rational_c_imp(const T*, const U*, const V&, const boost::integral_constant<int, 0>*)\n"
+         "inline BOOST_GPU_ENABLED V evaluate_rational_c_imp(const T*, const U*, const V&, const boost::integral_constant<int, 0>*) BOOST_MATH_NOEXCEPT(V)\n"
          "{\n"
          "   return static_cast<V>(0);\n"
          "}\n"
          "\n"
          "template <class T, class U, class V>\n"
-         "inline V evaluate_rational_c_imp(const T* a, const U* b, const V&, const boost::integral_constant<int, 1>*)\n"
+         "inline BOOST_GPU_ENABLED V evaluate_rational_c_imp(const T* a, const U* b, const V&, const boost::integral_constant<int, 1>*) BOOST_MATH_NOEXCEPT(V)\n"
          "{\n"
          "   return static_cast<V>(a[0]) / static_cast<V>(b[0]);\n"
          "}\n\n";
 
       for(int order = 2; order <= i; ++order)
       {
-         ofs << 
+         ofs <<
          "template <class T, class U, class V>\n"
-         "inline V evaluate_rational_c_imp(const T* a, const U* b, const V& x, const boost::integral_constant<int, " << order << ">*)\n"
+         "inline BOOST_GPU_ENABLED V evaluate_rational_c_imp(const T* a, const U* b, const V& x, const boost::integral_constant<int, " << order << ">*) BOOST_MATH_NOEXCEPT(V)\n"
          "{\n"
          "   if(x <= 1)\n"
          "     return static_cast<V>((";
-         
+
          for(int bracket = 2; bracket < order; ++bracket)
             ofs << "(";
          ofs << "a[" << order - 1 << "] * x + a[" << order - 2 << "]" ;
@@ -317,7 +318,7 @@ void print_rationals(int max_order)
          {
             ofs << ") * x + b[" << item << "]";
          }
-         
+
          ofs << "));\n   else\n   {\n      V z = 1 / x;\n      return static_cast<V>((";
 
          for(int bracket = order - 1; bracket > 1; --bracket)
@@ -336,9 +337,9 @@ void print_rationals(int max_order)
          {
             ofs << ") * z + b[" << item << "]";
          }
-         
+
          ofs << "));\n   }\n";
-         
+
          ofs << "}\n\n";
       }
       //
@@ -361,37 +362,37 @@ void print_rationals(int max_order)
          "#define BOOST_MATH_TOOLS_RAT_EVAL_" << i << "_HPP\n\n"
          "namespace boost{ namespace math{ namespace tools{ namespace detail{\n\n"
          "template <class T, class U, class V>\n"
-         "inline V evaluate_rational_c_imp(const T*, const U*, const V&, const boost::integral_constant<int, 0>*)\n"
+         "inline BOOST_GPU_ENABLED V evaluate_rational_c_imp(const T*, const U*, const V&, const boost::integral_constant<int, 0>*) BOOST_MATH_NOEXCEPT(V)\n"
          "{\n"
          "   return static_cast<V>(0);\n"
          "}\n"
          "\n"
          "template <class T, class U, class V>\n"
-         "inline V evaluate_rational_c_imp(const T* a, const U* b, const V&, const boost::integral_constant<int, 1>*)\n"
+         "inline BOOST_GPU_ENABLED V evaluate_rational_c_imp(const T* a, const U* b, const V&, const boost::integral_constant<int, 1>*) BOOST_MATH_NOEXCEPT(V)\n"
          "{\n"
          "   return static_cast<V>(a[0]) / static_cast<V>(b[0]);\n"
          "}\n\n"
          "template <class T, class U, class V>\n"
-         "inline V evaluate_rational_c_imp(const T* a, const U* b, const V& x, const boost::integral_constant<int, 2>*)\n"
+         "inline BOOST_GPU_ENABLED V evaluate_rational_c_imp(const T* a, const U* b, const V& x, const boost::integral_constant<int, 2>*) BOOST_MATH_NOEXCEPT(V)\n"
          "{\n"
          "   return static_cast<V>((a[1] * x + a[0]) / (b[1] * x + b[0]));\n"
          "}\n\n"
          "template <class T, class U, class V>\n"
-         "inline V evaluate_rational_c_imp(const T* a, const U* b, const V& x, const boost::integral_constant<int, 3>*)\n"
+         "inline BOOST_GPU_ENABLED V evaluate_rational_c_imp(const T* a, const U* b, const V& x, const boost::integral_constant<int, 3>*) BOOST_MATH_NOEXCEPT(V)\n"
          "{\n"
          "   return static_cast<V>(((a[2] * x + a[1]) * x + a[0]) / ((b[2] * x + b[1]) * x + b[0]));\n"
          "}\n\n"
          "template <class T, class U, class V>\n"
-         "inline V evaluate_rational_c_imp(const T* a, const U* b, const V& x, const boost::integral_constant<int, 4>*)\n"
+         "inline BOOST_GPU_ENABLED V evaluate_rational_c_imp(const T* a, const U* b, const V& x, const boost::integral_constant<int, 4>*) BOOST_MATH_NOEXCEPT(V)\n"
          "{\n"
          "   return static_cast<V>((((a[3] * x + a[2]) * x + a[1]) * x + a[0]) / (((b[3] * x + b[2]) * x + b[1]) * x + b[0]));\n"
          "}\n\n";
 
       for(int order = 5; order <= i; ++order)
       {
-         ofs << 
+         ofs <<
          "template <class T, class U, class V>\n"
-         "inline V evaluate_rational_c_imp(const T* a, const U* b, const V& x, const boost::integral_constant<int, " << order << ">*)\n"
+         "inline BOOST_GPU_ENABLED V evaluate_rational_c_imp(const T* a, const U* b, const V& x, const boost::integral_constant<int, " << order << ">*) BOOST_MATH_NOEXCEPT(V)\n"
          "{\n"
          "   if(x <= 1)\n   {\n"
          "      V x2 = x * x;\n"
@@ -577,37 +578,37 @@ void print_rationals(int max_order)
          "#define BOOST_MATH_TOOLS_RAT_EVAL_" << i << "_HPP\n\n"
          "namespace boost{ namespace math{ namespace tools{ namespace detail{\n\n"
          "template <class T, class U, class V>\n"
-         "inline V evaluate_rational_c_imp(const T*, const U*, const V&, const boost::integral_constant<int, 0>*)\n"
+         "inline BOOST_GPU_ENABLED V evaluate_rational_c_imp(const T*, const U*, const V&, const boost::integral_constant<int, 0>*) BOOST_MATH_NOEXCEPT(V)\n"
          "{\n"
          "   return static_cast<V>(0);\n"
          "}\n"
          "\n"
          "template <class T, class U, class V>\n"
-         "inline V evaluate_rational_c_imp(const T* a, const U* b, const V&, const boost::integral_constant<int, 1>*)\n"
+         "inline BOOST_GPU_ENABLED V evaluate_rational_c_imp(const T* a, const U* b, const V&, const boost::integral_constant<int, 1>*) BOOST_MATH_NOEXCEPT(V)\n"
          "{\n"
          "   return static_cast<V>(a[0]) / static_cast<V>(b[0]);\n"
          "}\n\n"
          "template <class T, class U, class V>\n"
-         "inline V evaluate_rational_c_imp(const T* a, const U* b, const V& x, const boost::integral_constant<int, 2>*)\n"
+         "inline BOOST_GPU_ENABLED V evaluate_rational_c_imp(const T* a, const U* b, const V& x, const boost::integral_constant<int, 2>*) BOOST_MATH_NOEXCEPT(V)\n"
          "{\n"
          "   return static_cast<V>((a[1] * x + a[0]) / (b[1] * x + b[0]));\n"
          "}\n\n"
          "template <class T, class U, class V>\n"
-         "inline V evaluate_rational_c_imp(const T* a, const U* b, const V& x, const boost::integral_constant<int, 3>*)\n"
+         "inline BOOST_GPU_ENABLED V evaluate_rational_c_imp(const T* a, const U* b, const V& x, const boost::integral_constant<int, 3>*) BOOST_MATH_NOEXCEPT(V)\n"
          "{\n"
          "   return static_cast<V>(((a[2] * x + a[1]) * x + a[0]) / ((b[2] * x + b[1]) * x + b[0]));\n"
          "}\n\n"
          "template <class T, class U, class V>\n"
-         "inline V evaluate_rational_c_imp(const T* a, const U* b, const V& x, const boost::integral_constant<int, 4>*)\n"
+         "inline BOOST_GPU_ENABLED V evaluate_rational_c_imp(const T* a, const U* b, const V& x, const boost::integral_constant<int, 4>*) BOOST_MATH_NOEXCEPT(V)\n"
          "{\n"
          "   return static_cast<V>((((a[3] * x + a[2]) * x + a[1]) * x + a[0]) / (((b[3] * x + b[2]) * x + b[1]) * x + b[0]));\n"
          "}\n\n";
 
       for(int order = 5; order <= i; ++order)
       {
-         ofs << 
+         ofs <<
          "template <class T, class U, class V>\n"
-         "inline V evaluate_rational_c_imp(const T* a, const U* b, const V& x, const boost::integral_constant<int, " << order << ">*)\n"
+         "inline BOOST_GPU_ENABLED V evaluate_rational_c_imp(const T* a, const U* b, const V& x, const boost::integral_constant<int, " << order << ">*) BOOST_MATH_NOEXCEPT(V)\n"
          "{\n"
          "   if(x <= 1)\n   {\n"
          "      V x2 = x * x;\n"

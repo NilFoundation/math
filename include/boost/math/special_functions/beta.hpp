@@ -31,7 +31,7 @@ namespace detail{
 // Implementation of Beta(a,b) using the Lanczos approximation:
 //
 template <class T, class Lanczos, class Policy>
-T beta_imp(T a, T b, const Lanczos&, const Policy& pol)
+BOOST_GPU_ENABLED T beta_imp(T a, T b, const Lanczos&, const Policy& pol)
 {
    BOOST_MATH_STD_USING  // for ADL of std names
 
@@ -83,9 +83,10 @@ T beta_imp(T a, T b, const Lanczos&, const Policy& pol)
       b += 1;
    }
    */
+   using std::swap;
 
    if(a < b)
-      std::swap(a, b);
+      BOOST_MATH_CUDA_SAFE_SWAP(a, b);
 
    // Lanczos calculation:
    T agh = static_cast<T>(a + Lanczos::g() - 0.5f);
@@ -204,7 +205,7 @@ T beta_imp(T a, T b, const lanczos::undefined_lanczos& l, const Policy& pol)
 // horrendous cancellation errors.
 //
 template <class T, class Lanczos, class Policy>
-T ibeta_power_terms(T a,
+BOOST_GPU_ENABLED T ibeta_power_terms(T a,
                         T b,
                         T x,
                         T y,
@@ -239,11 +240,11 @@ T ibeta_power_terms(T a,
    // l1 and l2 are the base of the exponents minus one:
    T l1 = (x * b - y * agh) / agh;
    T l2 = (y * a - x * bgh) / bgh;
-   if(((std::min)(fabs(l1), fabs(l2)) < 0.2))
+   if((BOOST_MATH_CUDA_SAFE_MIN(fabs(l1), fabs(l2)) < 0.2))
    {
       // when the base of the exponent is very near 1 we get really
       // gross errors unless extra care is taken:
-      if((l1 * l2 > 0) || ((std::min)(a, b) < 1))
+      if((l1 * l2 > 0) || (BOOST_MATH_CUDA_SAFE_MIN(a, b) < 1))
       {
          //
          // This first branch handles the simple cases where either:
@@ -279,7 +280,7 @@ T ibeta_power_terms(T a,
             BOOST_MATH_INSTRUMENT_VARIABLE(result);
          }
       }
-      else if((std::max)(fabs(l1), fabs(l2)) < 0.5)
+      else if(BOOST_MATH_CUDA_SAFE_MAX(fabs(l1), fabs(l2)) < 0.5)
       {
          //
          // Both exponents are near one and both the exponents are
@@ -527,8 +528,8 @@ template <class T>
 struct ibeta_series_t
 {
    typedef T result_type;
-   ibeta_series_t(T a_, T b_, T x_, T mult) : result(mult), x(x_), apn(a_), poch(1-b_), n(1) {}
-   T operator()()
+   BOOST_GPU_ENABLED ibeta_series_t(T a_, T b_, T x_, T mult) : result(mult), x(x_), apn(a_), poch(1-b_), n(1) {}
+   BOOST_GPU_ENABLED T operator()()
    {
       T r = result / apn;
       apn += 1;
@@ -543,13 +544,13 @@ private:
 };
 
 template <class T, class Lanczos, class Policy>
-T ibeta_series(T a, T b, T x, T s0, const Lanczos&, bool normalised, T* p_derivative, T y, const Policy& pol)
+BOOST_GPU_ENABLED T ibeta_series(T a, T b, T x, T s0, const Lanczos&, bool normalised, T* p_derivative, T y, const Policy& pol)
 {
    BOOST_MATH_STD_USING
 
    T result;
 
-   BOOST_ASSERT((p_derivative == 0) || normalised);
+   BOOST_MATH_ASSERT((p_derivative == 0) || normalised);
 
    if(normalised)
    {
@@ -581,7 +582,7 @@ T ibeta_series(T a, T b, T x, T s0, const Lanczos&, bool normalised, T* p_deriva
          if(p_derivative)
          {
             *p_derivative = result * pow(y, b);
-            BOOST_ASSERT(*p_derivative >= 0);
+            BOOST_MATH_ASSERT(*p_derivative >= 0);
          }
       }
       else
@@ -617,7 +618,7 @@ T ibeta_series(T a, T b, T x, T s0, const boost::math::lanczos::undefined_lanczo
    BOOST_MATH_STD_USING
 
    T result;
-   BOOST_ASSERT((p_derivative == 0) || normalised);
+   BOOST_MATH_ASSERT((p_derivative == 0) || normalised);
 
    if(normalised)
    {
@@ -653,7 +654,7 @@ T ibeta_series(T a, T b, T x, T s0, const boost::math::lanczos::undefined_lanczo
       if(p_derivative)
       {
          *p_derivative = result * pow(y, b);
-         BOOST_ASSERT(*p_derivative >= 0);
+         BOOST_MATH_ASSERT(*p_derivative >= 0);
       }
    }
    else
@@ -678,9 +679,9 @@ struct ibeta_fraction2_t
 {
    typedef std::pair<T, T> result_type;
 
-   ibeta_fraction2_t(T a_, T b_, T x_, T y_) : a(a_), b(b_), x(x_), y(y_), m(0) {}
+   BOOST_GPU_ENABLED ibeta_fraction2_t(T a_, T b_, T x_, T y_) : a(a_), b(b_), x(x_), y(y_), m(0) {}
 
-   result_type operator()()
+   BOOST_GPU_ENABLED result_type operator()()
    {
       T aN = (a + m - 1) * (a + b + m - 1) * m * (b - m) * x * x;
       T denom = (a + 2 * m - 1);
@@ -703,7 +704,7 @@ private:
 // Evaluate the incomplete beta via the continued fraction representation:
 //
 template <class T, class Policy>
-inline T ibeta_fraction2(T a, T b, T x, T y, const Policy& pol, bool normalised, T* p_derivative)
+inline BOOST_GPU_ENABLED T ibeta_fraction2(T a, T b, T x, T y, const Policy& pol, bool normalised, T* p_derivative)
 {
    typedef typename lanczos::lanczos<T, Policy>::type lanczos_type;
    BOOST_MATH_STD_USING
@@ -711,7 +712,7 @@ inline T ibeta_fraction2(T a, T b, T x, T y, const Policy& pol, bool normalised,
    if(p_derivative)
    {
       *p_derivative = result;
-      BOOST_ASSERT(*p_derivative >= 0);
+      BOOST_MATH_ASSERT(*p_derivative >= 0);
    }
    if(result == 0)
       return result;
@@ -726,7 +727,7 @@ inline T ibeta_fraction2(T a, T b, T x, T y, const Policy& pol, bool normalised,
 // Computes the difference between ibeta(a,b,x) and ibeta(a+k,b,x):
 //
 template <class T, class Policy>
-T ibeta_a_step(T a, T b, T x, T y, int k, const Policy& pol, bool normalised, T* p_derivative)
+BOOST_GPU_ENABLED T ibeta_a_step(T a, T b, T x, T y, int k, const Policy& pol, bool normalised, T* p_derivative)
 {
    typedef typename lanczos::lanczos<T, Policy>::type lanczos_type;
 
@@ -736,7 +737,7 @@ T ibeta_a_step(T a, T b, T x, T y, int k, const Policy& pol, bool normalised, T*
    if(p_derivative)
    {
       *p_derivative = prefix;
-      BOOST_ASSERT(*p_derivative >= 0);
+      BOOST_MATH_ASSERT(*p_derivative >= 0);
    }
    prefix /= a;
    if(prefix == 0)
@@ -760,7 +761,7 @@ T ibeta_a_step(T a, T b, T x, T y, int k, const Policy& pol, bool normalised, T*
 // it is currently only called for small k.
 //
 template <class T>
-inline T rising_factorial_ratio(T a, T b, int k)
+inline BOOST_GPU_ENABLED T rising_factorial_ratio(T a, T b, int k)
 {
    // calculate:
    // (a)(a+1)(a+2)...(a+k-1)
@@ -807,17 +808,21 @@ template <>
 struct Pn_size<double>
 {
    BOOST_STATIC_CONSTANT(unsigned, value = 30); // 16-20 digit accuracy
+#ifndef __CUDA_ARCH__
    BOOST_STATIC_ASSERT(::boost::math::max_factorial<double>::value >= 60);
+#endif
 };
 template <>
 struct Pn_size<long double>
 {
    BOOST_STATIC_CONSTANT(unsigned, value = 50); // ~35-50 digit accuracy
+#ifndef __CUDA_ARCH__
    BOOST_STATIC_ASSERT(::boost::math::max_factorial<long double>::value >= 100);
+#endif
 };
 
 template <class T, class Policy>
-T beta_small_b_large_a_series(T a, T b, T x, T y, T s0, T mult, const Policy& pol, bool normalised)
+BOOST_GPU_ENABLED T beta_small_b_large_a_series(T a, T b, T x, T y, T s0, T mult, const Policy& pol, bool normalised)
 {
    typedef typename lanczos::lanczos<T, Policy>::type lanczos_type;
    BOOST_MATH_STD_USING
@@ -929,7 +934,7 @@ T beta_small_b_large_a_series(T a, T b, T x, T y, T s0, T mult, const Policy& po
 // complement of the binomial distribution cdf and use this finite sum.
 //
 template <class T, class Policy>
-T binomial_ccdf(T n, T k, T x, T y, const Policy& pol)
+BOOST_GPU_ENABLED T binomial_ccdf(T n, T k, T x, T y, const Policy& pol)
 {
    BOOST_MATH_STD_USING // ADL of std names
 
@@ -990,7 +995,7 @@ T binomial_ccdf(T n, T k, T x, T y, const Policy& pol)
 // each domain:
 //
 template <class T, class Policy>
-T ibeta_imp(T a, T b, T x, const Policy& pol, bool inv, bool normalised, T* p_derivative)
+BOOST_GPU_ENABLED T ibeta_imp(T a, T b, T x, const Policy& pol, bool inv, bool normalised, T* p_derivative)
 {
    static const char* function = "boost::math::ibeta<%1%>(%1%, %1%, %1%)";
    typedef typename lanczos::lanczos<T, Policy>::type lanczos_type;
@@ -1006,7 +1011,7 @@ T ibeta_imp(T a, T b, T x, const Policy& pol, bool inv, bool normalised, T* p_de
    T fract;
    T y = 1 - x;
 
-   BOOST_ASSERT((p_derivative == 0) || normalised);
+   BOOST_MATH_ASSERT((p_derivative == 0) || normalised);
 
    if(p_derivative)
       *p_derivative = -1; // value not set.
@@ -1102,19 +1107,19 @@ T ibeta_imp(T a, T b, T x, const Policy& pol, bool inv, bool normalised, T* p_de
       return p;
    }
 
-   if((std::min)(a, b) <= 1)
+   if(BOOST_MATH_CUDA_SAFE_MIN(a, b) <= 1)
    {
       if(x > 0.5)
       {
-         std::swap(a, b);
-         std::swap(x, y);
+         BOOST_MATH_CUDA_SAFE_SWAP(a, b);
+         BOOST_MATH_CUDA_SAFE_SWAP(x, y);
          invert = !invert;
          BOOST_MATH_INSTRUMENT_VARIABLE(invert);
       }
-      if((std::max)(a, b) <= 1)
+      if(BOOST_MATH_CUDA_SAFE_MAX(a, b) <= 1)
       {
          // Both a,b < 1:
-         if((a >= (std::min)(T(0.2), b)) || (pow(x, a) <= 0.9))
+         if((a >= BOOST_MATH_CUDA_SAFE_MIN(T(0.2), b)) || (pow(x, a) <= 0.9))
          {
             if(!invert)
             {
@@ -1131,8 +1136,8 @@ T ibeta_imp(T a, T b, T x, const Policy& pol, bool inv, bool normalised, T* p_de
          }
          else
          {
-            std::swap(a, b);
-            std::swap(x, y);
+            BOOST_MATH_CUDA_SAFE_SWAP(a, b);
+            BOOST_MATH_CUDA_SAFE_SWAP(x, y);
             invert = !invert;
             if(y >= 0.3)
             {
@@ -1197,8 +1202,8 @@ T ibeta_imp(T a, T b, T x, const Policy& pol, bool inv, bool normalised, T* p_de
          }
          else
          {
-            std::swap(a, b);
-            std::swap(x, y);
+            BOOST_MATH_CUDA_SAFE_SWAP(a, b);
+            BOOST_MATH_CUDA_SAFE_SWAP(x, y);
             invert = !invert;
 
             if(y >= 0.3)
@@ -1275,8 +1280,8 @@ T ibeta_imp(T a, T b, T x, const Policy& pol, bool inv, bool normalised, T* p_de
       }
       if(lambda < 0)
       {
-         std::swap(a, b);
-         std::swap(x, y);
+         BOOST_MATH_CUDA_SAFE_SWAP(a, b);
+         BOOST_MATH_CUDA_SAFE_SWAP(x, y);
          invert = !invert;
          BOOST_MATH_INSTRUMENT_VARIABLE(invert);
       }
@@ -1390,15 +1395,15 @@ T ibeta_imp(T a, T b, T x, const Policy& pol, bool inv, bool normalised, T* p_de
 } // template <class T, class Lanczos>T ibeta_imp(T a, T b, T x, const Lanczos& l, bool inv, bool normalised)
 
 template <class T, class Policy>
-inline T ibeta_imp(T a, T b, T x, const Policy& pol, bool inv, bool normalised)
+BOOST_GPU_ENABLED inline T ibeta_imp(T a, T b, T x, const Policy& pol, bool inv, bool normalised)
 {
    return ibeta_imp(a, b, x, pol, inv, normalised, static_cast<T*>(0));
 }
 
 template <class T, class Policy>
-T ibeta_derivative_imp(T a, T b, T x, const Policy& pol)
+BOOST_GPU_ENABLED T ibeta_derivative_imp(T a, T b, T x, const Policy& pol)
 {
-   static const char* function = "ibeta_derivative<%1%>(%1%,%1%,%1%)";
+   BOOST_MATH_GPU_STATIC const char* function = "ibeta_derivative<%1%>(%1%,%1%,%1%)";
    //
    // start with the usual error checks:
    //
@@ -1433,7 +1438,7 @@ T ibeta_derivative_imp(T a, T b, T x, const Policy& pol)
 // Some forwarding functions that dis-ambiguate the third argument type:
 //
 template <class RT1, class RT2, class Policy>
-inline typename tools::promote_args<RT1, RT2>::type
+inline BOOST_GPU_ENABLED typename tools::promote_args<RT1, RT2>::type
    beta(RT1 a, RT2 b, const Policy&, const boost::true_type*)
 {
    BOOST_FPU_EXCEPTION_GUARD
@@ -1450,7 +1455,7 @@ inline typename tools::promote_args<RT1, RT2>::type
    return policies::checked_narrowing_cast<result_type, forwarding_policy>(detail::beta_imp(static_cast<value_type>(a), static_cast<value_type>(b), evaluation_type(), forwarding_policy()), "boost::math::beta<%1%>(%1%,%1%)");
 }
 template <class RT1, class RT2, class RT3>
-inline typename tools::promote_args<RT1, RT2, RT3>::type
+inline BOOST_GPU_ENABLED typename tools::promote_args<RT1, RT2, RT3>::type
    beta(RT1 a, RT2 b, RT3 x, const boost::false_type*)
 {
    return boost::math::beta(a, b, x, policies::policy<>());
@@ -1463,7 +1468,7 @@ inline typename tools::promote_args<RT1, RT2, RT3>::type
 // and forward to the implementation functions:
 //
 template <class RT1, class RT2, class A>
-inline typename tools::promote_args<RT1, RT2, A>::type
+inline BOOST_GPU_ENABLED typename tools::promote_args<RT1, RT2, A>::type
    beta(RT1 a, RT2 b, A arg)
 {
    typedef typename policies::is_policy<A>::type tag;
@@ -1471,14 +1476,14 @@ inline typename tools::promote_args<RT1, RT2, A>::type
 }
 
 template <class RT1, class RT2>
-inline typename tools::promote_args<RT1, RT2>::type
+inline BOOST_GPU_ENABLED typename tools::promote_args<RT1, RT2>::type
    beta(RT1 a, RT2 b)
 {
    return boost::math::beta(a, b, policies::policy<>());
 }
 
 template <class RT1, class RT2, class RT3, class Policy>
-inline typename tools::promote_args<RT1, RT2, RT3>::type
+inline BOOST_GPU_ENABLED typename tools::promote_args<RT1, RT2, RT3>::type
    beta(RT1 a, RT2 b, RT3 x, const Policy&)
 {
    BOOST_FPU_EXCEPTION_GUARD
@@ -1495,7 +1500,7 @@ inline typename tools::promote_args<RT1, RT2, RT3>::type
 }
 
 template <class RT1, class RT2, class RT3, class Policy>
-inline typename tools::promote_args<RT1, RT2, RT3>::type
+inline BOOST_GPU_ENABLED typename tools::promote_args<RT1, RT2, RT3>::type
    betac(RT1 a, RT2 b, RT3 x, const Policy&)
 {
    BOOST_FPU_EXCEPTION_GUARD
@@ -1511,14 +1516,14 @@ inline typename tools::promote_args<RT1, RT2, RT3>::type
    return policies::checked_narrowing_cast<result_type, forwarding_policy>(detail::ibeta_imp(static_cast<value_type>(a), static_cast<value_type>(b), static_cast<value_type>(x), forwarding_policy(), true, false), "boost::math::betac<%1%>(%1%,%1%,%1%)");
 }
 template <class RT1, class RT2, class RT3>
-inline typename tools::promote_args<RT1, RT2, RT3>::type
+inline BOOST_GPU_ENABLED typename tools::promote_args<RT1, RT2, RT3>::type
    betac(RT1 a, RT2 b, RT3 x)
 {
    return boost::math::betac(a, b, x, policies::policy<>());
 }
 
 template <class RT1, class RT2, class RT3, class Policy>
-inline typename tools::promote_args<RT1, RT2, RT3>::type
+inline BOOST_GPU_ENABLED typename tools::promote_args<RT1, RT2, RT3>::type
    ibeta(RT1 a, RT2 b, RT3 x, const Policy&)
 {
    BOOST_FPU_EXCEPTION_GUARD
@@ -1534,14 +1539,14 @@ inline typename tools::promote_args<RT1, RT2, RT3>::type
    return policies::checked_narrowing_cast<result_type, forwarding_policy>(detail::ibeta_imp(static_cast<value_type>(a), static_cast<value_type>(b), static_cast<value_type>(x), forwarding_policy(), false, true), "boost::math::ibeta<%1%>(%1%,%1%,%1%)");
 }
 template <class RT1, class RT2, class RT3>
-inline typename tools::promote_args<RT1, RT2, RT3>::type
+inline BOOST_GPU_ENABLED typename tools::promote_args<RT1, RT2, RT3>::type
    ibeta(RT1 a, RT2 b, RT3 x)
 {
    return boost::math::ibeta(a, b, x, policies::policy<>());
 }
 
 template <class RT1, class RT2, class RT3, class Policy>
-inline typename tools::promote_args<RT1, RT2, RT3>::type
+inline BOOST_GPU_ENABLED typename tools::promote_args<RT1, RT2, RT3>::type
    ibetac(RT1 a, RT2 b, RT3 x, const Policy&)
 {
    BOOST_FPU_EXCEPTION_GUARD
@@ -1557,14 +1562,14 @@ inline typename tools::promote_args<RT1, RT2, RT3>::type
    return policies::checked_narrowing_cast<result_type, forwarding_policy>(detail::ibeta_imp(static_cast<value_type>(a), static_cast<value_type>(b), static_cast<value_type>(x), forwarding_policy(), true, true), "boost::math::ibetac<%1%>(%1%,%1%,%1%)");
 }
 template <class RT1, class RT2, class RT3>
-inline typename tools::promote_args<RT1, RT2, RT3>::type
+inline BOOST_GPU_ENABLED typename tools::promote_args<RT1, RT2, RT3>::type
    ibetac(RT1 a, RT2 b, RT3 x)
 {
    return boost::math::ibetac(a, b, x, policies::policy<>());
 }
 
 template <class RT1, class RT2, class RT3, class Policy>
-inline typename tools::promote_args<RT1, RT2, RT3>::type
+inline BOOST_GPU_ENABLED typename tools::promote_args<RT1, RT2, RT3>::type
    ibeta_derivative(RT1 a, RT2 b, RT3 x, const Policy&)
 {
    BOOST_FPU_EXCEPTION_GUARD
@@ -1580,7 +1585,7 @@ inline typename tools::promote_args<RT1, RT2, RT3>::type
    return policies::checked_narrowing_cast<result_type, forwarding_policy>(detail::ibeta_derivative_imp(static_cast<value_type>(a), static_cast<value_type>(b), static_cast<value_type>(x), forwarding_policy()), "boost::math::ibeta_derivative<%1%>(%1%,%1%,%1%)");
 }
 template <class RT1, class RT2, class RT3>
-inline typename tools::promote_args<RT1, RT2, RT3>::type
+inline BOOST_GPU_ENABLED typename tools::promote_args<RT1, RT2, RT3>::type
    ibeta_derivative(RT1 a, RT2 b, RT3 x)
 {
    return boost::math::ibeta_derivative(a, b, x, policies::policy<>());

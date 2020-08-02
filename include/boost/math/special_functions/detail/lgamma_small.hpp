@@ -28,15 +28,15 @@ namespace boost{ namespace math{ namespace detail{
 // These need forward declaring to keep GCC happy:
 //
 template <class T, class Policy, class Lanczos>
-T gamma_imp(T z, const Policy& pol, const Lanczos& l);
+BOOST_GPU_ENABLED T gamma_imp(T z, const Policy& pol, const Lanczos& l);
 template <class T, class Policy>
-T gamma_imp(T z, const Policy& pol, const lanczos::undefined_lanczos& l);
+BOOST_GPU_ENABLED T gamma_imp(T z, const Policy& pol, const lanczos::undefined_lanczos& l);
 
 //
 // lgamma for small arguments:
 //
 template <class T, class Policy, class Lanczos>
-T lgamma_small_imp(T z, T zm1, T zm2, const boost::integral_constant<int, 64>&, const Policy& /* l */, const Lanczos&)
+BOOST_GPU_ENABLED T lgamma_small_imp(T z, T zm1, T zm2, const boost::integral_constant<int, 64>&, const Policy& /* l */, const Lanczos&)
 {
    // This version uses rational approximations for small
    // values of z accurate enough for 64-bit mantissas
@@ -87,7 +87,7 @@ T lgamma_small_imp(T z, T zm1, T zm2, const boost::integral_constant<int, 64>&, 
       // At long double: Max error found:               1.987e-21
       // Maximum Deviation Found (approximation error): 5.900e-24
       //
-      static const T P[] = {
+      BOOST_MATH_GPU_STATIC const T P[] = {
          static_cast<T>(BOOST_MATH_BIG_CONSTANT(T, 64, -0.180355685678449379109e-1)),
          static_cast<T>(BOOST_MATH_BIG_CONSTANT(T, 64, 0.25126649619989678683e-1)),
          static_cast<T>(BOOST_MATH_BIG_CONSTANT(T, 64, 0.494103151567532234274e-1)),
@@ -96,7 +96,7 @@ T lgamma_small_imp(T z, T zm1, T zm2, const boost::integral_constant<int, 64>&, 
          static_cast<T>(BOOST_MATH_BIG_CONSTANT(T, 64, -0.541009869215204396339e-3)),
          static_cast<T>(BOOST_MATH_BIG_CONSTANT(T, 64, -0.324588649825948492091e-4))
       };
-      static const T Q[] = {
+      BOOST_MATH_GPU_STATIC const T Q[] = {
          static_cast<T>(BOOST_MATH_BIG_CONSTANT(T, 64, 0.1e1)),
          static_cast<T>(BOOST_MATH_BIG_CONSTANT(T, 64, 0.196202987197795200688e1)),
          static_cast<T>(BOOST_MATH_BIG_CONSTANT(T, 64, 0.148019669424231326694e1)),
@@ -107,7 +107,7 @@ T lgamma_small_imp(T z, T zm1, T zm2, const boost::integral_constant<int, 64>&, 
          static_cast<T>(BOOST_MATH_BIG_CONSTANT(T, 64, -0.223352763208617092964e-6))
       };
 
-      static const float Y = 0.158963680267333984375e0f;
+      BOOST_MATH_GPU_STATIC const float Y = 0.158963680267333984375e0f;
 
       T r = zm2 * (z + 1);
       T R = tools::evaluate_polynomial(P, zm2);
@@ -152,9 +152,9 @@ T lgamma_small_imp(T z, T zm1, T zm2, const boost::integral_constant<int, 64>&, 
          // Expected Error Term:                                 3.139e-021
 
          //
-         static const float Y = 0.52815341949462890625f;
+         BOOST_MATH_GPU_STATIC const float Y = 0.52815341949462890625f;
 
-         static const T P[] = {
+         BOOST_MATH_GPU_STATIC const T P[] = {
             static_cast<T>(BOOST_MATH_BIG_CONSTANT(T, 64, 0.490622454069039543534e-1)),
             static_cast<T>(BOOST_MATH_BIG_CONSTANT(T, 64, -0.969117530159521214579e-1)),
             static_cast<T>(BOOST_MATH_BIG_CONSTANT(T, 64, -0.414983358359495381969e0)),
@@ -163,7 +163,7 @@ T lgamma_small_imp(T z, T zm1, T zm2, const boost::integral_constant<int, 64>&, 
             static_cast<T>(BOOST_MATH_BIG_CONSTANT(T, 64, -0.240149820648571559892e-1)),
             static_cast<T>(BOOST_MATH_BIG_CONSTANT(T, 64, -0.100346687696279557415e-2))
          };
-         static const T Q[] = {
+         BOOST_MATH_GPU_STATIC const T Q[] = {
             static_cast<T>(BOOST_MATH_BIG_CONSTANT(T, 64, 0.1e1)),
             static_cast<T>(BOOST_MATH_BIG_CONSTANT(T, 64, 0.302349829846463038743e1)),
             static_cast<T>(BOOST_MATH_BIG_CONSTANT(T, 64, 0.348739585360723852576e1)),
@@ -197,9 +197,9 @@ T lgamma_small_imp(T z, T zm1, T zm2, const boost::integral_constant<int, 64>&, 
          // Maximum Deviation Found:                           2.151e-021
          // Expected Error Term:                               2.150e-021
          //
-         static const float Y = 0.452017307281494140625f;
+         BOOST_MATH_GPU_STATIC const float Y = 0.452017307281494140625f;
 
-         static const T P[] = {
+         BOOST_MATH_GPU_STATIC const T P[] = {
             static_cast<T>(BOOST_MATH_BIG_CONSTANT(T, 64, -0.292329721830270012337e-1)), 
             static_cast<T>(BOOST_MATH_BIG_CONSTANT(T, 64, 0.144216267757192309184e0)),
             static_cast<T>(BOOST_MATH_BIG_CONSTANT(T, 64, -0.142440390738631274135e0)),
@@ -207,7 +207,7 @@ T lgamma_small_imp(T z, T zm1, T zm2, const boost::integral_constant<int, 64>&, 
             static_cast<T>(BOOST_MATH_BIG_CONSTANT(T, 64, -0.850535976868336437746e-2)),
             static_cast<T>(BOOST_MATH_BIG_CONSTANT(T, 64, 0.431171342679297331241e-3))
          };
-         static const T Q[] = {
+         BOOST_MATH_GPU_STATIC const T Q[] = {
             static_cast<T>(BOOST_MATH_BIG_CONSTANT(T, 64, 0.1e1)),
             static_cast<T>(BOOST_MATH_BIG_CONSTANT(T, 64, -0.150169356054485044494e1)),
             static_cast<T>(BOOST_MATH_BIG_CONSTANT(T, 64, 0.846973248876495016101e0)),
@@ -225,7 +225,7 @@ T lgamma_small_imp(T z, T zm1, T zm2, const boost::integral_constant<int, 64>&, 
    return result;
 }
 template <class T, class Policy, class Lanczos>
-T lgamma_small_imp(T z, T zm1, T zm2, const boost::integral_constant<int, 113>&, const Policy& /* l */, const Lanczos&)
+BOOST_GPU_ENABLED T lgamma_small_imp(T z, T zm1, T zm2, const boost::integral_constant<int, 113>&, const Policy& /* l */, const Lanczos&)
 {
    //
    // This version uses rational approximations for small
@@ -274,7 +274,7 @@ T lgamma_small_imp(T z, T zm1, T zm2, const boost::integral_constant<int, 113>&,
       //
       // Maximum Deviation Found (approximation error)      3.73e-37
 
-      static const T P[] = {
+      BOOST_MATH_GPU_STATIC const T P[] = {
          BOOST_MATH_BIG_CONSTANT(T, 113, -0.018035568567844937910504030027467476655),
          BOOST_MATH_BIG_CONSTANT(T, 113, 0.013841458273109517271750705401202404195),
          BOOST_MATH_BIG_CONSTANT(T, 113, 0.062031842739486600078866923383017722399),
@@ -287,7 +287,7 @@ T lgamma_small_imp(T z, T zm1, T zm2, const boost::integral_constant<int, 113>&,
          BOOST_MATH_BIG_CONSTANT(T, 113, -0.49999811718089980992888533630523892389e-6),
          BOOST_MATH_BIG_CONSTANT(T, 113, -0.70529798686542184668416911331718963364e-8)
       };
-      static const T Q[] = {
+      BOOST_MATH_GPU_STATIC const T Q[] = {
          BOOST_MATH_BIG_CONSTANT(T, 113, 1.0),
          BOOST_MATH_BIG_CONSTANT(T, 113, 2.5877485070422317542808137697939233685),
          BOOST_MATH_BIG_CONSTANT(T, 113, 2.8797959228352591788629602533153837126),
@@ -306,7 +306,7 @@ T lgamma_small_imp(T z, T zm1, T zm2, const boost::integral_constant<int, 113>&,
       T R = tools::evaluate_polynomial(P, zm2);
       R /= tools::evaluate_polynomial(Q, zm2);
 
-      static const float Y = 0.158963680267333984375F;
+      BOOST_MATH_GPU_STATIC const float Y = 0.158963680267333984375F;
 
       T r = zm2 * (z + 1);
 
@@ -350,9 +350,9 @@ T lgamma_small_imp(T z, T zm1, T zm2, const boost::integral_constant<int, 113>&,
          // Expected Error Term (theoretical error)                  1.343e-36
          // Max error found at 128-bit long double precision         1.007e-35
          //
-         static const float Y = 0.54076099395751953125f;
+         BOOST_MATH_GPU_STATIC const float Y = 0.54076099395751953125f;
 
-         static const T P[] = {
+         BOOST_MATH_GPU_STATIC const T P[] = {
             BOOST_MATH_BIG_CONSTANT(T, 113, 0.036454670944013329356512090082402429697),
             BOOST_MATH_BIG_CONSTANT(T, 113, -0.066235835556476033710068679907798799959),
             BOOST_MATH_BIG_CONSTANT(T, 113, -0.67492399795577182387312206593595565371),
@@ -366,7 +366,7 @@ T lgamma_small_imp(T z, T zm1, T zm2, const boost::integral_constant<int, 113>&,
             BOOST_MATH_BIG_CONSTANT(T, 113, -0.10164985672213178500790406939467614498e-6),
             BOOST_MATH_BIG_CONSTANT(T, 113, 0.13680157145361387405588201461036338274e-8)
          };
-         static const T Q[] = {
+         BOOST_MATH_GPU_STATIC const T Q[] = {
             BOOST_MATH_BIG_CONSTANT(T, 113, 1.0),
             BOOST_MATH_BIG_CONSTANT(T, 113, 4.9106336261005990534095838574132225599),
             BOOST_MATH_BIG_CONSTANT(T, 113, 10.258804800866438510889341082793078432),
@@ -403,9 +403,9 @@ T lgamma_small_imp(T z, T zm1, T zm2, const boost::integral_constant<int, 113>&,
          // Maximum Deviation Found (approximation error)     1.538e-37
          // Expected Error Term (theoretical error)           2.350e-38
          //
-         static const float Y = 0.483787059783935546875f;
+         BOOST_MATH_GPU_STATIC const float Y = 0.483787059783935546875f;
 
-         static const T P[] = {
+         BOOST_MATH_GPU_STATIC const T P[] = {
             BOOST_MATH_BIG_CONSTANT(T, 113, -0.017977422421608624353488126610933005432),
             BOOST_MATH_BIG_CONSTANT(T, 113, 0.18484528905298309555089509029244135703),
             BOOST_MATH_BIG_CONSTANT(T, 113, -0.40401251514859546989565001431430884082),
@@ -417,7 +417,7 @@ T lgamma_small_imp(T z, T zm1, T zm2, const boost::integral_constant<int, 113>&,
             BOOST_MATH_BIG_CONSTANT(T, 113, -0.57058739515423112045108068834668269608e-4),
             BOOST_MATH_BIG_CONSTANT(T, 113, 0.8207548771933585614380644961342925976e-6)
          };
-         static const T Q[] = {
+         BOOST_MATH_GPU_STATIC const T Q[] = {
             BOOST_MATH_BIG_CONSTANT(T, 113, 1.0),
             BOOST_MATH_BIG_CONSTANT(T, 113, -2.9629552288944259229543137757200262073),
             BOOST_MATH_BIG_CONSTANT(T, 113, 3.7118380799042118987185957298964772755),
@@ -444,9 +444,9 @@ T lgamma_small_imp(T z, T zm1, T zm2, const boost::integral_constant<int, 113>&,
          // Maximum Deviation Found (approximation error)      8.588e-36
          // Expected Error Term (theoretical error)            1.458e-36
          //
-         static const float Y = 0.443811893463134765625f;
+         BOOST_MATH_GPU_STATIC const float Y = 0.443811893463134765625f;
 
-         static const T P[] = {
+         BOOST_MATH_GPU_STATIC const T P[] = {
             BOOST_MATH_BIG_CONSTANT(T, 113, -0.021027558364667626231512090082402429494),
             BOOST_MATH_BIG_CONSTANT(T, 113, 0.15128811104498736604523586803722368377),
             BOOST_MATH_BIG_CONSTANT(T, 113, -0.26249631480066246699388544451126410278),
@@ -458,7 +458,7 @@ T lgamma_small_imp(T z, T zm1, T zm2, const boost::integral_constant<int, 113>&,
             BOOST_MATH_BIG_CONSTANT(T, 113, -0.11088589183158123733132268042570710338e-4),
             BOOST_MATH_BIG_CONSTANT(T, 113, 0.13240510580220763969511741896361984162e-6)
          };
-         static const T Q[] = {
+         BOOST_MATH_GPU_STATIC const T Q[] = {
             BOOST_MATH_BIG_CONSTANT(T, 113, 1.0),
             BOOST_MATH_BIG_CONSTANT(T, 113, -2.4240003754444040525462170802796471996),
             BOOST_MATH_BIG_CONSTANT(T, 113, 2.4868383476933178722203278602342786002),
@@ -482,7 +482,7 @@ T lgamma_small_imp(T z, T zm1, T zm2, const boost::integral_constant<int, 113>&,
    return result;
 }
 template <class T, class Policy, class Lanczos>
-T lgamma_small_imp(T z, T zm1, T zm2, const boost::integral_constant<int, 0>&, const Policy& pol, const Lanczos&)
+BOOST_GPU_ENABLED T lgamma_small_imp(T z, T zm1, T zm2, const boost::integral_constant<int, 0>&, const Policy& pol, const Lanczos&)
 {
    //
    // No rational approximations are available because either

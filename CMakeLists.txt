@@ -23,6 +23,8 @@ cm_setup_version(VERSION 1.73.0)
 
 option(BUILD_WITH_CI_KNOWN_ISSUES_SUPPRESS "Build for CI suppressing known issues" FALSE)
 option(BUILD_TESTS "Build unit tests" FALSE)
+option(BUILD_TOOLS "Build tools" FALSE)
+option(BUILD_EXAMPLES "Build examples" FALSE)
 
 if(BUILD_WITH_CI_KNOWN_ISSUES_SUPPRESS)
     add_definitions(-DCI_SUPPRESS_KNOWN_ISSUES)
@@ -368,4 +370,8 @@ cm_deploy(TARGETS ${TARGET_NAMES}
 
 if(BUILD_TESTS)
     add_subdirectory(test)
+endif()
+
+if(BUILD_TOOLS)
+    add_subdirectory(tools)
 endif()
