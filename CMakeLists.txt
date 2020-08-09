@@ -255,7 +255,6 @@ add_library(main_pch SHARED ${CMAKE_CURRENT_LIST_DIR}/src/tr1/pch.hpp)
 target_include_directories(main_pch PRIVATE ${CMAKE_CURRENT_LIST_DIR}/src/tr1)
 target_compile_definitions(main_pch PRIVATE BOOST_MATH_TR1_DYN_LINK)
 set_property(TARGET main_pch PROPERTY LINKER_LANGUAGE CXX)
-target_link_libraries(main_pch PRIVATE Boost::unit_test_framework)
 cm_deploy(TARGETS main_pch
           INCLUDE ${CURRENT_SOURCES_DIR}/src/tr1)
 
