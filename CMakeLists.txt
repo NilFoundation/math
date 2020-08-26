@@ -329,7 +329,9 @@ else()
 
     cm_project(math WORKSPACE_NAME ${CMAKE_WORKSPACE_NAME})
 
-    find_package(Boost COMPONENTS REQUIRED random)
+    if(NOT Boost_FOUND OR NOT Boost_RANDOM_FOUND)
+        find_package(Boost COMPONENTS REQUIRED random)
+    endif()
 
     foreach(TARGET_POSTFIX ${TARGET_POSTFIXES})
         string(TOUPPER ${TARGET_POSTFIX} UPPER_TARGET_POSTFIX)
